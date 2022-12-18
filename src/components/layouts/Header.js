@@ -1,6 +1,6 @@
 import logo from '../../assets/img/logo.png'
 
-const Header = ({openModal}) => {
+const Header = ({ openVendorModal, openTransactionModal }) => {
   return (
     <header>
 
@@ -17,9 +17,8 @@ const Header = ({openModal}) => {
 
           <div class="header-user-actions">
 
-            <button onClick={() => openModal()} className="">
-              Open Modal
-            </button>
+            <button onClick={() => openTransactionModal()} className="">create tx</button>
+            <button onClick={() => openVendorModal()} className="">vendor</button>
           </div>
 
         </div>
@@ -30,15 +29,16 @@ const Header = ({openModal}) => {
 
         <button className="action-btn" data-mobile-menu-open-btn>
           <ion-icon name="menu-outline"></ion-icon>
+          one
         </button>
 
 
         <button className="action-btn">
-          <ion-icon name="home-outline"></ion-icon>
+          <ion-icon name="home-outline"></ion-icon> two
         </button>
 
         <button className="action-btn" data-mobile-menu-open-btn>
-          <ion-icon name="grid-outline"></ion-icon>
+          <ion-icon name="grid-outline"></ion-icon> tjhree
         </button>
 
       </div>

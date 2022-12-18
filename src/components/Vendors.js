@@ -1,61 +1,41 @@
-
+import { useState, useEffect } from 'react'
+import { ethers } from 'ethers'
+import { createTransaction, getVendors } from '../utils'
 
 const Vendors = () => {
+
+  const [vendors, setVendors] = useState(undefined)
+
+  const transactionHandler = async (vendorAddr, amount) => {
+    await createTransaction(vendorAddr, amount)
+  }
+
+  useEffect( () => {
+
+    const vendorsHandler = async () => {
+
+      const res = await getVendors()
+      console.log('vendors ', res)
+      setVendors(res)
+
+    }
+
+    vendorsHandler()
+
+  }, [getVendors])
+
   return (
     <div class="product-container">
 
       <div class="container">
-
-
-        <div class="sidebar  has-scrollbar" data-mobile-menu>
-
-          <div class="product-showcase">
-
-            <h3 class="showcase-heading">Top service Providers</h3>
-
-            <div class="showcase-wrapper">
-
-              <div class="showcase-container">
-
-                <div class="showcase">
-
-                  <a href="#" className="showcase-img-box">
-                    {/*<img src="src/assets/images/istockphoto-1060680104-612x612.jpg" alt="baby fabric shoes" width="75" height="75"*/}
-                    {/*     class="showcase-img">*/}
-                  </a>
-
-                  <div class="showcase-content">
-
-                    {/*<a href="#">*/}
-                    {/*  <h4 class="showcase-title">Janet Fatima<br>Tailor*/}
-                    {/*</a>*/}
-
-                    <div class="showcase-rating">
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
 
         <div class="product-main">
 
           <h2 class="title">Service Providers</h2>
 
           <div class="product-grid">
+
+          {vendors && vendors.map(vendor => (
 
             <div class="showcase">
 
@@ -78,29 +58,22 @@ const Vendors = () => {
 
               <div class="showcase-content">
 
-                <a href="#" className="showcase-category">justin</a>
+                <a href="#" className="showcase-category">{vendor.businessName}</a>
 
                 <a href="#">
-                  <h3 class="showcase-title">Auto-mobile Engineer</h3>
+                  <h3 class="showcase-title">{vendor.profession}</h3>
                 </a>
 
-                <div class="showcase-rating">
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star-outline"></ion-icon>
-                  <ion-icon name="star-outline"></ion-icon>
-                </div>
 
                 <div class="price-box">
-                  <p class="price">#48.00</p>
-                  <button className="btn" onClick="makePayment('justib@ggh.hhj', 48, 'justin', 'okon')">Hire</button>
+                  <p class="price">{ethers.utils.formatEther(vendor.price.toNumber())}</p>
+                  <button className="btn" onClick={() => transactionHandler(vendor.vendorAddress)}>Hire</button>
                 </div>
 
               </div>
 
             </div>
-
+          ))}
 
           </div>
 

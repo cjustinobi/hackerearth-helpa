@@ -8,11 +8,20 @@ contract Helpa {
 
   uint256 public vendorCount;
 
+  enum Status {
+    Cancelled,
+    InProgress,
+    Reviewing,
+    Completed
+  }
+
   struct Vendor {
     address payable vendorAddress;
     string businessName;
+    string profession;
     string UDName;
     string imgUrl;
+    string description;
     uint256 price;
   }
 
@@ -20,7 +29,10 @@ contract Helpa {
     address payable vendor;
     address payable customer;
     uint256 amount;
-    bool completed;
+    Status status;
+    uint256 dateCreated;
+    uint256 dateCompleted;
+    uint256 dateReviewing;
   }
 
   struct TransactionStat {
@@ -37,10 +49,14 @@ contract Helpa {
 
   mapping(address => bool) public vendorExists;
 
-//  Vendor[] public vendors;
-  //  Transaction[] public transactions;
-
-  function createVendor(string memory _businessName, string memory _UDName, string memory _imgUrl, uint256 _price) public {
+  function createVendor(
+    string memory _businessName,
+    string memory _profession,
+    string memory _UDName,
+    string memory _imgUrl,
+    string memory _description,
+    uint256 _price
+  ) public {
 
     require(vendorExists[msg.sender] == false, 'Vendor already exists');
 
@@ -48,8 +64,10 @@ contract Helpa {
 
     vendor.vendorAddress = payable(msg.sender);
     vendor.businessName = _businessName;
+    vendor.profession = _profession;
     vendor.UDName = _UDName;
     vendor.imgUrl = _imgUrl;
+    vendor.description = _description;
     vendor.price = _price;
 
     vendorExists[msg.sender] = true;
@@ -57,30 +75,51 @@ contract Helpa {
     vendorCount ++;
   }
 
-  function createTransaction (address payable customer, address payable vendor, bool completed) public payable {
-    transactions[msg.sender].push(Transaction(vendor, customer, msg.value, completed));
+  function createTransaction (
+    address payable customer,
+    address payable vendor
+
+  ) public payable {
+
+    Status status = Status.InProgress;
+    transactions[msg.sender].push(Transaction(vendor, customer, msg.value, status, block.timestamp, 0, 0));
   }
 
-  function updateTransaction(uint256 _index, bool val) public {
+  function serviceReviewing(uint256 _index) public {
+    Transaction storage transaction = transactions[msg.sender][_index];
+    require(transaction.vendor == msg.sender, "Only the Vendor can confirm service completed");
+    require(transaction.status != Status.Completed, "Only the Customer can confirm service completed");
 
-    require(val == true, "Transaction can only be marked completed");
+    transaction.status = Status.Reviewing;
+    transaction.dateReviewing = block.timestamp;
+  }
+
+  function confirmService(uint256 _index, Status _status) public {
+
+    require(_status == Status.Reviewing, "Transaction can only be sent for review by the Vendor");
 
     Transaction storage transaction = transactions[msg.sender][_index];
 
-    require(transaction.completed == false, "Transaction has been completed already");
+    require(transaction.customer == msg.sender, "Only the customer can confirm the service");
+    require(transaction.status == Status.Completed, "Transaction has been completed already");
 
-    bool res;
+    if (_status == Status.Completed) {
 
-    res = transfer(transaction.vendor, transaction.amount);
+      bool res;
 
-    if(res) {
-      transaction.completed = val;
+      res = transfer(transaction.vendor, transaction.amount);
 
-      TransactionStat storage stat = transactionStat[transaction.vendor];
-      stat.amount += transaction.amount;
-      stat.count ++;
+      if(res) {
+        transaction.status = _status;
+        transaction.dateCompleted = block.timestamp;
+
+        TransactionStat storage stat = transactionStat[transaction.vendor];
+        stat.amount += transaction.amount;
+        stat.count ++;
+      }
+    } else {
+      transaction.status = _status;
     }
-
   }
 
 
@@ -104,6 +143,8 @@ contract Helpa {
     string memory businessName,
     string memory UDName,
     string memory imgUrl,
+    string memory description,
+    string memory profession,
     uint256 price
   ) {
 
@@ -114,6 +155,8 @@ contract Helpa {
     vendor.businessName,
     vendor.UDName,
     vendor.imgUrl,
+    vendor.description,
+    vendor.profession,
     vendor.price
     );
   }
@@ -122,7 +165,10 @@ contract Helpa {
     address vendor,
     address customer,
     uint256 amount,
-    bool completed
+    Status status,
+    uint256 dateCreated,
+    uint256 dateCompleted,
+    uint256 dateReviewing
   ) {
 
     Transaction storage transaction = transactions[msg.sender][_index];
@@ -131,11 +177,14 @@ contract Helpa {
     transaction.vendor,
     transaction.customer,
     transaction.amount,
-    transaction.completed
+    transaction.status,
+    transaction.dateCreated,
+    transaction.dateCompleted,
+    transaction.dateReviewing
     );
   }
 
-  function getTransactionStats (uint256 _index) public view returns (uint256 amount, uint256 count) {
+  function getTransactionStats () public view returns (uint256 amount, uint256 count) {
 
     TransactionStat storage stat = transactionStat[msg.sender];
 
@@ -145,7 +194,7 @@ contract Helpa {
     );
   }
 
-  function getTransactionCount(uint256 _index) public view returns (uint256) {
+  function getTransactionCount() public view returns (uint256) {
       return transactions[msg.sender].length;
   }
 
