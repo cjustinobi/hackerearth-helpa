@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
-import { ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import { createTransaction, getVendors } from '../utils'
 
 const Vendors = () => {
 
   const [vendors, setVendors] = useState(undefined)
 
-  const transactionHandler = async (vendorAddr, amount) => {
-    await createTransaction(vendorAddr, amount)
+  const transactionHandler = async (vendorIndex, vendorAddr, amount) => {
+    const res = await createTransaction(vendorIndex, vendorAddr, amount)
+    console.log(res)
   }
 
   useEffect( () => {
@@ -15,7 +16,6 @@ const Vendors = () => {
     const vendorsHandler = async () => {
 
       const res = await getVendors()
-      console.log('vendors ', res)
       setVendors(res)
 
     }
@@ -25,26 +25,26 @@ const Vendors = () => {
   }, [getVendors])
 
   return (
-    <div class="product-container">
+    <div className="product-container">
 
-      <div class="container">
+      <div className="container">
 
-        <div class="product-main">
+        <div className="product-main">
 
-          <h2 class="title">Service Providers</h2>
+          <h2 className="title">Service Providers</h2>
 
-          <div class="product-grid">
+          <div className="product-grid">
 
-          {vendors && vendors.map(vendor => (
+          {vendors && vendors.map((vendor, i) => (
 
-            <div class="showcase">
+            <div className="showcase" key={i}>
 
-              <div class="showcase-banner">
+              <div className="showcase-banner">
 
-                {/*<img src="../hack/images (1).jpg" alt="Mens Winter Leathers Jackets" width="300" class="product-img default">*/}
-                {/*  <img src="../hack/download (1).jpg" alt="Mens Winter Leathers Jackets" width="300" class="product-img hover" style="transform: scale(0.9);">*/}
+                {/*<img src="../hack/images (1).jpg" alt="Mens Winter Leathers Jackets" width="300" className="product-img default">*/}
+                {/*  <img src="../hack/download (1).jpg" alt="Mens Winter Leathers Jackets" width="300" className="product-img hover" style="transform: scale(0.9);">*/}
 
-                <div class="showcase-actions">
+                <div className="showcase-actions">
 
                   <a href="../profile/profile 1/index.html">
                     <button className="btn-action">
@@ -56,18 +56,18 @@ const Vendors = () => {
 
               </div>
 
-              <div class="showcase-content">
+              <div className="showcase-content">
 
                 <a href="#" className="showcase-category">{vendor.businessName}</a>
 
                 <a href="#">
-                  <h3 class="showcase-title">{vendor.profession}</h3>
+                  <h3 className="showcase-title">{vendor.profession}</h3>
                 </a>
 
 
-                <div class="price-box">
-                  <p class="price">{ethers.utils.formatEther(vendor.price.toNumber())}</p>
-                  <button className="btn" onClick={() => transactionHandler(vendor.vendorAddress)}>Hire</button>
+                <div className="price-box">
+                  <p className="price">{ethers.utils.formatEther(BigNumber.from(vendor.price))}</p>
+                  <button className="btn" onClick={() => transactionHandler(vendor.vendorIndex, vendor.vendorAddress, vendor.price)}>Hire</button>
                 </div>
 
               </div>

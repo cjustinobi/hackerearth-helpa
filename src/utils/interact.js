@@ -1,7 +1,8 @@
 import { ethers } from 'ethers'
+import BigNumber from 'bignumber.js'
 import HelpaJson from '../artifacts/contracts/Helpa.sol/Helpa.json'
 
-const contractAddress = '0xe0D4cbc81660Afaf2Cd0f1fC1840e7615D54b27E'
+const contractAddress = '0x7C8d36BA3F88a13251b540bdD5FbAD6A7AaBba4d'
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 const signer = provider.getSigner()
 const contractSigner = new ethers.Contract(contractAddress, HelpaJson.abi, signer)
@@ -18,7 +19,7 @@ async function requestAccount() {
   }
 }
 
-export const createTransaction = async (vendor, amount) => {
+export const getTransactions = async (vendor,) => {
 
 
   if (typeof window.ethereum !== 'undefined') {
@@ -26,11 +27,31 @@ export const createTransaction = async (vendor, amount) => {
 
     try {
 
+      const txHash = await contractSigner.getTransaction(vendor)
+      return await txHash.wait()
+
+    } catch (err) {
+      console.log('Error: ', err);
+    }
+  }
+}
+
+
+
+export const createTransaction = async (vendorIndex, vendorAddress, amount) => {
+console.log(amount.toNumber().toString())
+  alert(vendorIndex)
+  if (typeof window.ethereum !== 'undefined') {
+    await requestAccount()
+
+    try {
+      let a = new BigNumber(amount).shiftedBy(18).toString()
       const txHash = await contractSigner.createTransaction(
-        customer,
-        vendor,
+        vendorIndex,
+        vendorAddress,
         {
-          value: ethers.utils.parseEther(amount)
+          value: amount.toNumber().toString()
+
         }
       )
       return await txHash.wait()
@@ -67,6 +88,22 @@ export const createVendor = async (businessName, profession, domain, logoPath, d
   }
 }
 
+export const getTransactionCount = async () => {
+
+
+  if (typeof window.ethereum !== 'undefined') {
+    await requestAccount()
+
+    try {
+
+      return await contract.getTransactionCount()
+
+    } catch (err) {
+      console.log('Error: ', err);
+    }
+  }
+}
+
 export const getVendorCount = async () => {
 
 
@@ -95,8 +132,10 @@ export const getVendors = async () => {
     let vendors = []
 
     for (let i = 0; i < vendorCount; i++) {
-      const res = await contract.getVendors(i)
-      console.log(res)
+      let res = await contract.getVendors(i)
+      res = { ...res }
+      res.vendorIndex = i
+      console.log('vendorss ', res)
       vendors.push(res)
     }
 

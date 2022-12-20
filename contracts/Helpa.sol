@@ -23,9 +23,12 @@ contract Helpa {
     string imgUrl;
     string description;
     uint256 price;
+    uint256 totalAmount;
+    uint256 transactionCount;
   }
 
   struct Transaction {
+    uint256 vendorIndex;
     address payable vendor;
     address payable customer;
     uint256 amount;
@@ -35,15 +38,20 @@ contract Helpa {
     uint256 dateReviewing;
   }
 
-  struct TransactionStat {
-    uint256 amount;
+//  struct TransactionStat {
+//    uint256 amount;
+//    uint256 count;
+//  }
+
+  struct TransactionCount {
     uint256 count;
   }
 
+  mapping (address => TransactionCount) transactionCount;
 
   mapping (address => Transaction[]) transactions;
 
-  mapping (address => TransactionStat) transactionStat;
+//  mapping (address => TransactionStat) transactionStat;
 
   mapping (uint256 => Vendor) vendors;
 
@@ -60,6 +68,9 @@ contract Helpa {
 
     require(vendorExists[msg.sender] == false, 'Vendor already exists');
 
+    uint256 totalAmount;
+    uint256 transactionCount;
+
     Vendor storage vendor = vendors[vendorCount];
 
     vendor.vendorAddress = payable(msg.sender);
@@ -69,6 +80,8 @@ contract Helpa {
     vendor.imgUrl = _imgUrl;
     vendor.description = _description;
     vendor.price = _price;
+    vendor.totalAmount = totalAmount;
+    vendor.transactionCount = transactionCount;
 
     vendorExists[msg.sender] = true;
 
@@ -76,13 +89,15 @@ contract Helpa {
   }
 
   function createTransaction (
-    address payable customer,
+    uint256 vendorIndex,
     address payable vendor
 
   ) public payable {
 
     Status status = Status.InProgress;
-    transactions[msg.sender].push(Transaction(vendor, customer, msg.value, status, block.timestamp, 0, 0));
+    transactions[msg.sender].push(Transaction(vendorIndex, vendor, payable(msg.sender), msg.value, status, block.timestamp, 0, 0));
+    TransactionCount storage transactionCount = transactionCount[msg.sender];
+    transactionCount.count ++;
   }
 
   function serviceReviewing(uint256 _index) public {
@@ -113,9 +128,13 @@ contract Helpa {
         transaction.status = _status;
         transaction.dateCompleted = block.timestamp;
 
-        TransactionStat storage stat = transactionStat[transaction.vendor];
-        stat.amount += transaction.amount;
-        stat.count ++;
+        Vendor storage vendor = vendors[transaction.vendorIndex];
+        vendor.totalAmount += transaction.amount;
+        vendor.transactionCount ++;
+
+//        TransactionStat storage stat = transactionStat[transaction.vendor];
+//        stat.amount += transaction.amount;
+//        stat.count ++;
       }
     } else {
       transaction.status = _status;
@@ -162,6 +181,7 @@ contract Helpa {
   }
 
   function getTransactions (uint256 _index) public view returns (
+    uint256 vendorIndex,
     address vendor,
     address customer,
     uint256 amount,
@@ -174,6 +194,7 @@ contract Helpa {
     Transaction storage transaction = transactions[msg.sender][_index];
 
     return (
+    transaction.vendorIndex,
     transaction.vendor,
     transaction.customer,
     transaction.amount,
@@ -184,18 +205,19 @@ contract Helpa {
     );
   }
 
-  function getTransactionStats () public view returns (uint256 amount, uint256 count) {
-
-    TransactionStat storage stat = transactionStat[msg.sender];
-
-    return (
-      stat.amount,
-      stat.count
-    );
-  }
+//  function getTransactionStats () public view returns (uint256 amount, uint256 count) {
+//
+//    TransactionStat storage stat = transactionStat[msg.sender];
+//
+//    return (
+//      stat.amount,
+//      stat.count
+//    );
+//  }
 
   function getTransactionCount() public view returns (uint256) {
-      return transactions[msg.sender].length;
+    TransactionCount storage txCount = transactionCount[msg.sender];
+    return txCount.count;
   }
 
   function getVendorCount() public view returns (uint256) {
