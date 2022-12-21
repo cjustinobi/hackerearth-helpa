@@ -38,20 +38,20 @@ contract Helpa {
     uint256 dateReviewing;
   }
 
-//  struct TransactionStat {
-//    uint256 amount;
-//    uint256 count;
-//  }
+  //  struct TransactionStat {
+  //    uint256 amount;
+  //    uint256 count;
+  //  }
 
-  struct TransactionCount {
-    uint256 count;
-  }
+  //  struct TransactionCount {
+  //    uint256 count;
+  //  }
 
-  mapping (address => TransactionCount) transactionCount;
+  mapping (address => uint256) transactionCounts;
 
   mapping (address => Transaction[]) transactions;
 
-//  mapping (address => TransactionStat) transactionStat;
+  //  mapping (address => TransactionStat) transactionStat;
 
   mapping (uint256 => Vendor) vendors;
 
@@ -96,8 +96,7 @@ contract Helpa {
 
     Status status = Status.InProgress;
     transactions[msg.sender].push(Transaction(vendorIndex, vendor, payable(msg.sender), msg.value, status, block.timestamp, 0, 0));
-    TransactionCount storage transactionCount = transactionCount[msg.sender];
-    transactionCount.count ++;
+    transactionCounts[msg.sender] += 1;
   }
 
   function serviceReviewing(uint256 _index) public {
@@ -132,9 +131,9 @@ contract Helpa {
         vendor.totalAmount += transaction.amount;
         vendor.transactionCount ++;
 
-//        TransactionStat storage stat = transactionStat[transaction.vendor];
-//        stat.amount += transaction.amount;
-//        stat.count ++;
+        //        TransactionStat storage stat = transactionStat[transaction.vendor];
+        //        stat.amount += transaction.amount;
+        //        stat.count ++;
       }
     } else {
       transaction.status = _status;
@@ -164,7 +163,9 @@ contract Helpa {
     string memory imgUrl,
     string memory description,
     string memory profession,
-    uint256 price
+    uint256 price,
+    uint256 totalAmount,
+    uint256 transCount
   ) {
 
     Vendor storage vendor = vendors[_index];
@@ -176,7 +177,9 @@ contract Helpa {
     vendor.imgUrl,
     vendor.description,
     vendor.profession,
-    vendor.price
+    vendor.price,
+    vendor.totalAmount,
+    vendor.transactionCount
     );
   }
 
@@ -205,19 +208,18 @@ contract Helpa {
     );
   }
 
-//  function getTransactionStats () public view returns (uint256 amount, uint256 count) {
-//
-//    TransactionStat storage stat = transactionStat[msg.sender];
-//
-//    return (
-//      stat.amount,
-//      stat.count
-//    );
-//  }
+  //  function getTransactionStats () public view returns (uint256 amount, uint256 count) {
+  //
+  //    TransactionStat storage stat = transactionStat[msg.sender];
+  //
+  //    return (
+  //      stat.amount,
+  //      stat.count
+  //    );
+  //  }
 
   function getTransactionCount() public view returns (uint256) {
-    TransactionCount storage txCount = transactionCount[msg.sender];
-    return txCount.count;
+    return transactionCounts[msg.sender];
   }
 
   function getVendorCount() public view returns (uint256) {

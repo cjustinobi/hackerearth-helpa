@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import BigNumber from 'bignumber.js'
 import HelpaJson from '../artifacts/contracts/Helpa.sol/Helpa.json'
 
-const contractAddress = '0x7C8d36BA3F88a13251b540bdD5FbAD6A7AaBba4d'
+const contractAddress = '0x39DEea42dd5042F9722Ac9098F7a6c46572a1B86'
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 const signer = provider.getSigner()
 const contractSigner = new ethers.Contract(contractAddress, HelpaJson.abi, signer)
@@ -19,23 +19,58 @@ async function requestAccount() {
   }
 }
 
-export const getTransactions = async (vendor,) => {
+const getTransactions = async (count) => {
+
+
+    try {
+
+      let transactions = []
+
+      for (let i = 0; i < count; count++) {
+        transactions.push(await contractSigner.getTransactions(i))
+      }
+console.log('tanxx ', transactions)
+      return transactions
+
+      // const txHash = await
+      // return await txHash
+
+    } catch (err) {
+      console.log('Error: ', err);
+    }
+
+}
+
+export const customerTransactions = async () => {
 
 
   if (typeof window.ethereum !== 'undefined') {
     await requestAccount()
 
-    try {
+    const count = await contractSigner.getTransactionCount()
 
-      const txHash = await contractSigner.getTransaction(vendor)
-      return await txHash.wait()
+    let transactions = []
 
-    } catch (err) {
-      console.log('Error: ', err);
+    for (let i = 0; i < count; i++) {
+
+      try {
+
+        let tnx = new Promise(async resolve => {
+          const res = await contractSigner.getTransactions(i)
+          resolve(res)
+        })
+        transactions.push(tnx)
+
+      } catch (err) {
+        console.log('Error: ', err);
+      }
+
     }
+    const result = await Promise.all(transactions)
+    return result
+
   }
 }
-
 
 
 export const createTransaction = async (vendorIndex, vendorAddress, amount) => {
@@ -81,22 +116,6 @@ export const createVendor = async (businessName, profession, domain, logoPath, d
         ethers.utils.parseEther(amount)
       )
       return await txHash.wait()
-
-    } catch (err) {
-      console.log('Error: ', err);
-    }
-  }
-}
-
-export const getTransactionCount = async () => {
-
-
-  if (typeof window.ethereum !== 'undefined') {
-    await requestAccount()
-
-    try {
-
-      return await contract.getTransactionCount()
 
     } catch (err) {
       console.log('Error: ', err);

@@ -63,7 +63,8 @@ const Vendors = () => {
                 <a href="#">
                   <h3 className="showcase-title">{vendor.profession}</h3>
                 </a>
-
+                <p>Completed: {vendor.transactionCount}</p>
+                <p>Sales: {vendor.totalAmount.toNumber()}</p>
 
                 <div className="price-box">
                   <p className="price">{ethers.utils.formatEther(BigNumber.from(vendor.price))}</p>

@@ -1,26 +1,29 @@
 import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
-import { getTransactions, getTransactionCount } from '../../utils'
+import { customerTransactions } from '../../utils'
 
 const Transactions = () => {
 
   const [transactions, setTransactions] = useState(undefined)
+
+  const approveHandler = val => {
+    console.log(val)
+  }
 
 
   useEffect( () => {
 
     const transactionsHandler = async () => {
 
-      const res = await getTransactionCount()
-      // const res = await getTransactions()
-      console.log('res ', res.toNumber())
+      const res = await customerTransactions()
+      console.log('res ', res)
       setTransactions(res)
 
     }
 
     transactionsHandler()
 
-  }, [getTransactions])
+  }, [])
 
   return (
     <div class="product-container">
@@ -33,11 +36,11 @@ const Transactions = () => {
 
           <div class="product-grid">
 
-            {/*{transactions && transactions.map(vendor => (*/}
+            {transactions && transactions.map(item => (
 
-            {/*  <div class="showcase">*/}
+              <div class="showcase">
 
-            {/*    <div class="showcase-banner">*/}
+                <div class="showcase-banner">
 
             {/*      /!*<img src="../hack/images (1).jpg" alt="Mens Winter Leathers Jackets" width="300" class="product-img default">*!/*/}
             {/*      /!*  <img src="../hack/download (1).jpg" alt="Mens Winter Leathers Jackets" width="300" class="product-img hover" style="transform: scale(0.9);">*!/*/}
@@ -63,15 +66,15 @@ const Transactions = () => {
             {/*      </a>*/}
 
 
-            {/*      <div class="price-box">*/}
-            {/*        /!*<p class="price">{ethers.utils.formatEther(vendor.price.toNumber())}</p>*!/*/}
-            {/*        /!*<button className="btn" onClick={() => transactionHandler(vendor.vendorAddress, vendor.price)}>Hire</button>*!/*/}
-            {/*      </div>*/}
+                  <div class="price-box">
+                    {/*<p class="price">{ethers.utils.formatEther(vendor.price.toNumber())}</p>*/}
+                    <button className="btn" onClick={() => approveHandler(item.vendor)}>Confirm</button>
+                  </div>
 
-            {/*    </div>*/}
+                </div>
 
-            {/*  </div>*/}
-            {/*))}*/}
+              </div>
+            ))}
 
           </div>
 
