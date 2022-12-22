@@ -103,23 +103,22 @@ contract Helpa {
 
      Transaction storage transaction = transactions[msg.sender][_index];
 
-//    require(transaction.customer == msg.sender, "Only the customer can confirm the service");
-//    require(transaction.status == Status.Completed, "Transaction has been completed already");
+    require(transaction.customer == msg.sender, "Only the customer can confirm the service");
+    require(transaction.status == Status.Completed, "Transaction has been completed already");
 
+    bool res;
 
-      bool res;
+    res = transfer(transaction.vendor, transaction.amount);
 
-      res = transfer(transaction.vendor, transaction.amount);
+    if(res) {
 
-      if(res) {
+      transaction.status = Status.Completed;
+      transaction.dateCompleted = block.timestamp;
 
-        transaction.status = Status.Completed;
-        transaction.dateCompleted = block.timestamp;
-
-        Vendor storage vendor = vendors[transaction.vendorIndex];
-        vendor.totalAmount += transaction.amount;
-        vendor.transactionCount ++;
-      }
+      Vendor storage vendor = vendors[transaction.vendorIndex];
+      vendor.totalAmount += transaction.amount;
+      vendor.transactionCount ++;
+    }
 
   }
 
@@ -191,16 +190,6 @@ contract Helpa {
     transaction.dateReviewing
     );
   }
-
-  //  function getTransactionStats () public view returns (uint256 amount, uint256 count) {
-  //
-  //    TransactionStat storage stat = transactionStat[msg.sender];
-  //
-  //    return (
-  //      stat.amount,
-  //      stat.count
-  //    );
-  //  }
 
   function getTransactionCount() public view returns (uint256) {
     return transactionCounts[msg.sender];
