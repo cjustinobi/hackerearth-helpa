@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { BigNumber, ethers } from 'ethers'
-import { createTransaction, getVendors } from '../utils'
+import { createTransaction, getVendors, test } from '../utils'
 
 const Vendors = () => {
 
@@ -11,11 +11,17 @@ const Vendors = () => {
     console.log(res)
   }
 
+  const testHandler = async () => {
+    const res = await test()
+    console.log(res)
+  }
+
   useEffect( () => {
 
     const vendorsHandler = async () => {
 
       const res = await getVendors()
+      console.log(res)
       setVendors(res)
 
     }
@@ -34,7 +40,7 @@ const Vendors = () => {
           <h2 className="title">Service Providers</h2>
 
           <div className="product-grid">
-
+            <button onClick={testHandler}>Test</button>
           {vendors && vendors.map((vendor, i) => (
 
             <div className="showcase" key={i}>
@@ -63,7 +69,7 @@ const Vendors = () => {
                 <a href="#">
                   <h3 className="showcase-title">{vendor.profession}</h3>
                 </a>
-                <p>Completed: {vendor.transactionCount}</p>
+                <p>Completed: {vendor.transCount.toNumber()}</p>
                 <p>Sales: {vendor.totalAmount.toNumber()}</p>
 
                 <div className="price-box">

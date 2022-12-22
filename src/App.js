@@ -51,27 +51,6 @@ function App() {
 
 
 
-  // const test = async () => {
-  //
-  //   if (typeof window.ethereum !== "undefined") {
-  //     await requestAccount()
-  //
-  //     try {
-  //       const signer = provider.getSigner()
-  //       const forTx = new ethers.Contract(contractAddress, HelpaJson.abi, signer)
-  //       const res = await contract.getTransactions(0)
-  //       // const res = await contract.getTransactionCount()
-  //       // const res = await contract.getBal()
-  //       // console.log(res.toNumber())
-  //       console.log(res)
-  //     } catch (err) {
-  //       console.log("Error: ", err);
-  //     }
-  //   }
-  // }
-
-
-
   const [modalTxIsOpen, setTxIsOpen] = useState(false);
   const [modalVendorIsOpen, setVendorIsOpen] = useState(false);
 

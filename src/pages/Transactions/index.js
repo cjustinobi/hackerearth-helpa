@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
-import { customerTransactions } from '../../utils'
+import { customerTransactions, confirmService } from '../../utils'
 
 const Transactions = () => {
 
   const [transactions, setTransactions] = useState(undefined)
 
-  const approveHandler = val => {
-    console.log(val)
+  const approveHandler = async transIndex => {
+    const res = await confirmService(transIndex)
+    console.log(res)
   }
 
 
@@ -68,7 +69,7 @@ const Transactions = () => {
 
                   <div class="price-box">
                     {/*<p class="price">{ethers.utils.formatEther(vendor.price.toNumber())}</p>*/}
-                    <button className="btn" onClick={() => approveHandler(item.vendor)}>Confirm</button>
+                    <button className="btn" onClick={() => approveHandler(item.transactionIndex)}>Confirm</button>
                   </div>
 
                 </div>

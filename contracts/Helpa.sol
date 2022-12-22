@@ -38,15 +38,6 @@ contract Helpa {
     uint256 dateReviewing;
   }
 
-  //  struct TransactionStat {
-  //    uint256 amount;
-  //    uint256 count;
-  //  }
-
-  //  struct TransactionCount {
-  //    uint256 count;
-  //  }
-
   mapping (address => uint256) transactionCounts;
 
   mapping (address => Transaction[]) transactions;
@@ -108,38 +99,29 @@ contract Helpa {
     transaction.dateReviewing = block.timestamp;
   }
 
-  function confirmService(uint256 _index, Status _status) public {
+  function confirmService(uint256 _index) public {
 
-    require(_status == Status.Reviewing, "Transaction can only be sent for review by the Vendor");
+     Transaction storage transaction = transactions[msg.sender][_index];
 
-    Transaction storage transaction = transactions[msg.sender][_index];
+//    require(transaction.customer == msg.sender, "Only the customer can confirm the service");
+//    require(transaction.status == Status.Completed, "Transaction has been completed already");
 
-    require(transaction.customer == msg.sender, "Only the customer can confirm the service");
-    require(transaction.status == Status.Completed, "Transaction has been completed already");
-
-    if (_status == Status.Completed) {
 
       bool res;
 
       res = transfer(transaction.vendor, transaction.amount);
 
       if(res) {
-        transaction.status = _status;
+
+        transaction.status = Status.Completed;
         transaction.dateCompleted = block.timestamp;
 
         Vendor storage vendor = vendors[transaction.vendorIndex];
         vendor.totalAmount += transaction.amount;
         vendor.transactionCount ++;
-
-        //        TransactionStat storage stat = transactionStat[transaction.vendor];
-        //        stat.amount += transaction.amount;
-        //        stat.count ++;
       }
-    } else {
-      transaction.status = _status;
-    }
-  }
 
+  }
 
   // Function to transfer Ether from this contract to address from input
 
@@ -184,6 +166,7 @@ contract Helpa {
   }
 
   function getTransactions (uint256 _index) public view returns (
+    uint256 transactionIndex,
     uint256 vendorIndex,
     address vendor,
     address customer,
@@ -197,6 +180,7 @@ contract Helpa {
     Transaction storage transaction = transactions[msg.sender][_index];
 
     return (
+    _index,
     transaction.vendorIndex,
     transaction.vendor,
     transaction.customer,

@@ -15,7 +15,7 @@ module.exports = {
     polygon_mumbai: {
       url: polygonUrl,
       accounts: [REACT_APP_PK],
-      gas: 2100000,
+      // gas: 2100000,
       gasPrice: 8000000000
     },
     // goerli: {
