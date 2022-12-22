@@ -1,14 +1,13 @@
 import { useState } from 'react'
 import { Routes, Route, Link, BrowserRouter as Router } from 'react-router-dom'
-import Modal from 'react-modal';
-import { ethers } from 'ethers'
+import Modal from 'react-modal'
 
-import HelpaJson from './artifacts/contracts/Helpa.sol/Helpa.json'
 import { loginWithUD } from './services'
 import { modalCustomStyles } from './utils'
 import useExternalScripts from "./hooks/useExternalScripts"
 
 import Home from './pages/Home'
+import Jobs from './pages/Jobs'
 import Transactions from './pages/Transactions'
 import Header from './components/layouts/Header'
 import Footer from './components/layouts/Footer'
@@ -29,27 +28,6 @@ function App() {
     console.log(res)
 
   }
-
-  // const updateTransaction = async () => {
-  //
-  //   if (typeof window.ethereum !== "undefined") {
-  //     await requestAccount()
-  //
-  //     const signer = provider.getSigner()
-  //     const forTx = new ethers.Contract(contractAddress, HelpaJson.abi, signer)
-  //
-  //     try {
-  //
-  //       const txHash = await forTx.updateTransaction('0', true)
-  //       const res = await txHash.wait()
-  //       console.log(res)
-  //     } catch (err) {
-  //       console.log("Error: ", err);
-  //     }
-  //   }
-  // }
-
-
 
   const [modalTxIsOpen, setTxIsOpen] = useState(false);
   const [modalVendorIsOpen, setVendorIsOpen] = useState(false);
@@ -83,9 +61,6 @@ function App() {
       <Header openVendorModal={openVendorModal} openTransactionModal={openTransactionModal} />
 
     <div>
-      {/*<button onClick={test}>Test</button>*/}
-      {/*<button onClick={createTransaction}>Create Transaction</button>*/}
-      {/*<button onClick={updateTransaction}>Update transaction</button>*/}
 
       <Modal
         isOpen={modalTxIsOpen}
@@ -94,7 +69,6 @@ function App() {
         style={modalCustomStyles}
         contentLabel="Example Modal"
       >
-        {/*<h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2>*/}
         <TransactionModal closeTxModal={closeTxModal} />
 
       </Modal>
@@ -106,17 +80,15 @@ function App() {
         style={modalCustomStyles}
         contentLabel="Vendor Modal"
       >
-        {/*<h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2>*/}
         <VendorModal closeTxModal={closeVendorModal} />
 
       </Modal>
 
-      <Link to='/'>Home</Link>
-      <Link to='/transactions'>Transactions</Link>
     </div>
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/transactions" element={<Transactions/>}/>
+        <Route path="/" element={<Home  openVendorModal={openVendorModal}/>}/>
+        <Route path="/my-jobs" element={<Jobs/>}/>
+        <Route path="/my-transactions" element={<Transactions/>}/>
       </Routes>
       {/*{addLibrary('./assets/js/script')}*/}
       <Footer />

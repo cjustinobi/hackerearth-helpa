@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom'
 import logo from '../../assets/img/logo.png'
 
-const Header = ({ openVendorModal, openTransactionModal }) => {
+const Header = ({ openVendorModal }) => {
   return (
     <header>
 
@@ -8,17 +9,19 @@ const Header = ({ openVendorModal, openTransactionModal }) => {
 
         <div class="container">
 
-          <a href="../index.html" className="header-logo">
+          <Link to='/' className="header-logo">
             <img src={logo} alt="" width="100px" />
-            <h1>Home Helpers</h1>
-          </a>
+          </Link>
 
-
+          <div className={'links'}>
+            <Link to='/my-jobs'>My Jobs</Link>
+            <Link to='/my-transactions'>My Transactions</Link>
+          </div>
 
           <div class="header-user-actions">
 
-            <button onClick={() => openTransactionModal()} className="">create tx</button>
-            <button onClick={() => openVendorModal()} className="">vendor</button>
+            {/*<button className={'action-btn'} onClick={() => openTransactionModal()} >create tx</button>*/}
+            <button className={'banner-btn'} onClick={() => openVendorModal()} >Create Account</button>
           </div>
 
         </div>

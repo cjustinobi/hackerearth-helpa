@@ -2,7 +2,7 @@ import Vendors from '../../components/Vendors'
 import hero from '../../assets/img/hero.jpg'
 
 
-const Home = () => {
+const Home = ({openVendorModal}) => {
   return (
     <main>
       <div className="banner">
@@ -17,15 +17,15 @@ const Home = () => {
 
               <div className="banner-content">
 
-                <p className="banner-subtitle">NEW</p>
+                {/*<p className="banner-subtitle">NEW</p>*/}
 
-                <h2 className="banner-title">Cleaning Service Bonus</h2>
+                <h2 className="banner-title">Getting Tech Artisans should'nt be hard</h2>
 
                 <p className="banner-text">
                   starting at &dollar; <b>399</b>.99
                 </p>
 
-                <a href="#" className="banner-btn">Shop now</a>
+                <button onClick={() => openVendorModal()} className="banner-btn">Create Account</button>
 
               </div>
 

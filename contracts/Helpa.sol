@@ -104,7 +104,7 @@ contract Helpa {
      Transaction storage transaction = transactions[msg.sender][_index];
 
     require(transaction.customer == msg.sender, "Only the customer can confirm the service");
-    require(transaction.status == Status.Completed, "Transaction has been completed already");
+//    require(transaction.status == Status.Completed, "Transaction has been completed already");
 
     bool res;
 

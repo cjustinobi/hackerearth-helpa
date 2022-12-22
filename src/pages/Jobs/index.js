@@ -4,7 +4,7 @@ import { customerTransactions, confirmService } from '../../utils'
 
 import logo from '../../assets/img/placeholder.jpg'
 
-const Transactions = () => {
+const Jobs = () => {
 
   const [transactions, setTransactions] = useState(undefined)
 
@@ -35,7 +35,7 @@ const Transactions = () => {
 
         <div class="product-main">
 
-          <h2 class="title">My Transactions</h2>
+          <h2 class="title">My Jobs</h2>
 
           <div class="product-grid">
 
@@ -90,4 +90,4 @@ const Transactions = () => {
   )
 }
 
-export default Transactions
+export default Jobs
