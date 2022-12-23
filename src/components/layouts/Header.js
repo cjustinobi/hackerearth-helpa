@@ -1,7 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/img/logo.png'
 
 const Header = ({ openVendorModal }) => {
+
+  const navigate = useNavigate()
+
   return (
     <header>
 
@@ -30,18 +33,17 @@ const Header = ({ openVendorModal }) => {
 
       <div class="mobile-bottom-navigation">
 
-        <button className="action-btn" data-mobile-menu-open-btn>
-          <ion-icon name="menu-outline"></ion-icon>
-          one
+        <button onClick={() => navigate('/')} className="action-btn">
+          <ion-icon name="home-outline"></ion-icon>
+        </button>
+
+        <button onClick={() => navigate('/my-jobs')} className="action-btn" data-mobile-menu-open-btn>
+          <ion-icon name="construct-outline"></ion-icon>
         </button>
 
 
-        <button className="action-btn">
-          <ion-icon name="home-outline"></ion-icon> two
-        </button>
-
-        <button className="action-btn" data-mobile-menu-open-btn>
-          <ion-icon name="grid-outline"></ion-icon> tjhree
+        <button onClick={() => navigate('/my-transactions')} className="action-btn" data-mobile-menu-open-btn>
+          <ion-icon name="list-outline"></ion-icon>
         </button>
 
       </div>

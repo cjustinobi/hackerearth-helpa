@@ -1,5 +1,5 @@
 import Vendors from '../../components/Vendors'
-import hero from '../../assets/img/hero.jpg'
+import hero from '../../assets/img/hero.png'
 
 
 const Home = ({openVendorModal}) => {
@@ -22,7 +22,7 @@ const Home = ({openVendorModal}) => {
                 <h2 className="banner-title">Getting Tech Artisans should'nt be hard</h2>
 
                 <p className="banner-text">
-                  starting at &dollar; <b>399</b>.99
+                  Focus on what matters!
                 </p>
 
                 <button onClick={() => openVendorModal()} className="banner-btn">Create Account</button>

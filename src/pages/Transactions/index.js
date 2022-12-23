@@ -61,7 +61,8 @@ const Transactions = () => {
 
             {/*    </div>*/}
 
-            {/*    <div class="showcase-content">*/}
+                <div class="showcase-content">
+                  <p><small>Sales: {ethers.utils.formatEther(item.amount.toNumber())}</small></p>
 
             {/*      <a href="#" className="showcase-category">{vendor.businessName}</a>*/}
 
@@ -74,7 +75,7 @@ const Transactions = () => {
                     {/*<p class="price">{ethers.utils.formatEther(vendor.price.toNumber())}</p>*/}
                     <button className="btn" onClick={() => approveHandler(item.transactionIndex)}>Confirm</button>
                   </div>
-
+                </div>
                 </div>
 
               </div>
