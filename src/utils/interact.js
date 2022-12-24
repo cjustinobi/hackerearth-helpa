@@ -1,5 +1,4 @@
 import { ethers } from 'ethers'
-import BigNumber from 'bignumber.js'
 import { pascalToWord, transactionStatus } from '../utils'
 import HelpaJson from '../artifacts/contracts/Helpa.sol/Helpa.json'
 

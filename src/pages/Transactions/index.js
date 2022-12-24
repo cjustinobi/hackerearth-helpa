@@ -3,7 +3,6 @@ import { ethers } from 'ethers'
 import {
   customerTransactions,
   confirmService,
-  transactionStatus,
   formatDate
 } from '../../utils'
 
