@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
-import { customerTransactions, confirmService } from '../../utils'
+import {
+  customerTransactions,
+  confirmService,
+  transactionStatus,
+  formatDate
+} from '../../utils'
 
 import logo from '../../assets/img/placeholder.jpg'
 
@@ -8,9 +13,13 @@ const Transactions = () => {
 
   const [transactions, setTransactions] = useState(undefined)
 
-  const approveHandler = async transIndex => {
-    const res = await confirmService(transIndex)
+  const approveHandler = async (transIndex, vendorAddr) => {
+    const res = await confirmService(transIndex, vendorAddr)
     console.log(res)
+  }
+
+  const getStatus = index => {
+    transactionStatus(index)
   }
 
 
@@ -62,7 +71,10 @@ const Transactions = () => {
             {/*    </div>*/}
 
                 <div class="showcase-content">
-                  <p><small>Sales: {ethers.utils.formatEther(item.amount.toNumber())}</small></p>
+                  <small>{item.status}</small>
+                  <p><small>Amount: {ethers.utils.formatEther(item.amount.toNumber())}</small></p>
+                  <small>Created {formatDate(item.dateCreated.toNumber())}</small><br/>
+                  {/*{item.status === 'Completed' && <small>Completed {formatDate(item.dateCreated.toNumber())}</small>}*/}
 
             {/*      <a href="#" className="showcase-category">{vendor.businessName}</a>*/}
 
@@ -72,8 +84,9 @@ const Transactions = () => {
 
 
                   <div class="price-box">
-                    {/*<p class="price">{ethers.utils.formatEther(vendor.price.toNumber())}</p>*/}
-                    <button className="btn" onClick={() => approveHandler(item.transactionIndex)}>Confirm</button>
+                    {item.status === 'In Progress' &&
+                    <button className="btn" onClick={() => approveHandler(item.transactionIndex, item.vendor)}>Confirm</button>
+                    }
                   </div>
                 </div>
                 </div>

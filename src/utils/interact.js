@@ -1,8 +1,9 @@
 import { ethers } from 'ethers'
 import BigNumber from 'bignumber.js'
+import { pascalToWord, transactionStatus } from '../utils'
 import HelpaJson from '../artifacts/contracts/Helpa.sol/Helpa.json'
 
-const contractAddress = '0x290F4bFB238a703cd000B2e6A50775EF5b79Cddb'
+const contractAddress = '0xdc201441Fd7509A6aBb8721193E7262fAB5430b2'
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 const signer = provider.getSigner()
 const contractSigner = new ethers.Contract(contractAddress, HelpaJson.abi, signer)
@@ -15,7 +16,7 @@ async function requestAccount() {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
   } catch (error) {
     console.error(error);
-    alert('Login to Metamask first');
+    console.log('Login to Metamask first');
   }
 }
 
@@ -45,8 +46,43 @@ export const customerTransactions = async () => {
       }
 
     }
-    const result = await Promise.all(transactions)
-    return result
+    let result = await Promise.all(transactions)
+
+    return result.map(item => ({...item, status: pascalToWord(transactionStatus(item.status)).trim()}))
+
+  }
+}
+
+
+export const vendorTransactions = async () => {
+
+
+  if (typeof window.ethereum !== 'undefined') {
+
+    await requestAccount()
+
+    const count = await contractSigner.getVendorTransactionCount()
+
+    let transactions = []
+
+    for (let i = 0; i < count; i++) {
+
+      try {
+
+        let tnx = new Promise(async resolve => {
+          const res = await contractSigner.getVendorTransactions(i)
+          resolve(res)
+        })
+        transactions.push(tnx)
+
+      } catch (err) {
+        console.log('Error: ', err);
+      }
+
+    }
+    let result = await Promise.all(transactions)
+
+    return result.map(item => ({...item, status: pascalToWord(transactionStatus(item.status)).trim()}))
 
   }
 }
@@ -140,13 +176,12 @@ export const getVendors = async () => {
   }
 }
 
-// export const confirmService = async (transIndex, status) => {
-export const confirmService = async (transIndex) => {
+export const confirmService = async (transIndex, vendorAddr) => {
 
   if (typeof window.ethereum !== 'undefined') {
     await requestAccount()
 
-    let txHash = await contractSigner.confirmService(transIndex)
+    let txHash = await contractSigner.confirmService(transIndex, vendorAddr)
 
     return await txHash.wait()
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
-import { customerTransactions, confirmService } from '../../utils'
+import {vendorTransactions, confirmService, formatDate} from '../../utils'
 
 import logo from '../../assets/img/placeholder.jpg'
 
@@ -18,7 +18,7 @@ const Jobs = () => {
 
     const transactionsHandler = async () => {
 
-      const res = await customerTransactions()
+      const res = await vendorTransactions()
       console.log('res ', res)
       setTransactions(res)
 
@@ -44,35 +44,15 @@ const Jobs = () => {
               <div class="showcase">
 
                 <div class="showcase-banner">
-
-
-
-                  {/*  <img src="../hack/download (1).jpg" alt="Mens Winter Leathers Jackets" width="300" class="product-img hover" style="transform: scale(0.9);">*/}
-
-            {/*      <div class="showcase-actions">*/}
-
-            {/*        <a href="../profile/profile 1/index.html">*/}
-            {/*          <button className="btn-action">*/}
-            {/*            <ion-icon name="person-outline"></ion-icon>*/}
-            {/*          </button>*/}
-            {/*        </a>*/}
-
-            {/*      </div>*/}
-
-            {/*    </div>*/}
-
-            {/*    <div class="showcase-content">*/}
-
-            {/*      <a href="#" className="showcase-category">{vendor.businessName}</a>*/}
-
-            {/*      <a href="#">*/}
-            {/*        <h3 class="showcase-title">{vendor.profession}</h3>*/}
-            {/*      </a>*/}
-
+                  <small>Created {formatDate(item.dateCreated.toNumber())}</small><br/>
+                  <small>{item.status}</small>
 
                   <div class="price-box">
-                    {/*<p class="price">{ethers.utils.formatEther(vendor.price.toNumber())}</p>*/}
-                    <button className="btn" onClick={() => approveHandler(item.transactionIndex)}>Confirm</button>
+                    {item.status === 'In Progress' &&
+                      <button className="btn" onClick={() => approveHandler(item.transactionIndex)}>
+                        Mark Completed
+                      </button>
+                    }
                   </div>
 
                 </div>

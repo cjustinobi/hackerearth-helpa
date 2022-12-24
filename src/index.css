@@ -1259,10 +1259,10 @@ body::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
 /*-----------------------------------*\
   #PRODUCT GRID
 \*-----------------------------------*/
-.btn{
+
+.btn {
   background: var(--salmon-pink);
-  padding: 2px;
-  width: 50px;
+  padding: 5px 12px;
   border-radius: 10px;
   color: #fff;
 }

@@ -38,11 +38,20 @@ contract Helpa {
     uint256 dateReviewing;
   }
 
+  struct VendorTransaction {
+      address payable customer;
+      Status status;
+      uint256 dateCreated;
+      uint256 dateCompleted;
+    }
+
   mapping (address => uint256) transactionCounts;
 
-  mapping (address => Transaction[]) transactions;
+  mapping (address => uint256) vendorTransactionCounts;
 
-  //  mapping (address => TransactionStat) transactionStat;
+  mapping (address => Transaction[]) customerTransactions;
+
+  mapping (address => VendorTransaction[]) vendorTransactions;
 
   mapping (uint256 => Vendor) vendors;
 
@@ -86,22 +95,29 @@ contract Helpa {
   ) public payable {
 
     Status status = Status.InProgress;
-    transactions[msg.sender].push(Transaction(vendorIndex, vendor, payable(msg.sender), msg.value, status, block.timestamp, 0, 0));
+    customerTransactions[msg.sender].push(Transaction(vendorIndex, vendor, payable(msg.sender), msg.value, status, block.timestamp, 0, 0));
+    vendorTransactions[vendor].push(VendorTransaction(payable(msg.sender), status, block.timestamp, 0));
     transactionCounts[msg.sender] += 1;
+    vendorTransactionCounts[vendor] += 1;
   }
 
-  function serviceReviewing(uint256 _index) public {
-    Transaction storage transaction = transactions[msg.sender][_index];
+  function serviceReviewing(uint256 _index, address _customerAddress) public {
+    Transaction storage transaction = customerTransactions[_customerAddress][_index];
+    VendorTransaction storage vendorTransaction = vendorTransactions[msg.sender][_index];
+
     require(transaction.vendor == msg.sender, "Only the Vendor can confirm service completed");
     require(transaction.status != Status.Completed, "Only the Customer can confirm service completed");
 
     transaction.status = Status.Reviewing;
     transaction.dateReviewing = block.timestamp;
+
+    vendorTransaction.status = Status.Reviewing;
   }
 
-  function confirmService(uint256 _index) public {
+  function confirmService(uint256 _index, address _vendorAddress) public {
 
-     Transaction storage transaction = transactions[msg.sender][_index];
+     Transaction storage transaction = customerTransactions[msg.sender][_index];
+     VendorTransaction storage vendorTransaction = vendorTransactions[_vendorAddress][_index];
 
     require(transaction.customer == msg.sender, "Only the customer can confirm the service");
 //    require(transaction.status == Status.Completed, "Transaction has been completed already");
@@ -114,6 +130,8 @@ contract Helpa {
 
       transaction.status = Status.Completed;
       transaction.dateCompleted = block.timestamp;
+      vendorTransaction.status = Status.Completed;
+      vendorTransaction.dateCompleted = block.timestamp;
 
       Vendor storage vendor = vendors[transaction.vendorIndex];
       vendor.totalAmount += transaction.amount;
@@ -176,7 +194,7 @@ contract Helpa {
     uint256 dateReviewing
   ) {
 
-    Transaction storage transaction = transactions[msg.sender][_index];
+    Transaction storage transaction = customerTransactions[msg.sender][_index];
 
     return (
     _index,
@@ -191,8 +209,30 @@ contract Helpa {
     );
   }
 
+    function getVendorTransactions (uint256 _index) public view returns (
+
+      address customer,
+      Status status,
+      uint256 dateCreated,
+      uint256 dateCompleted
+    ) {
+
+      VendorTransaction storage vendorTransaction = vendorTransactions[msg.sender][_index];
+
+      return (
+      vendorTransaction.customer,
+      vendorTransaction.status,
+      vendorTransaction.dateCreated,
+      vendorTransaction.dateCompleted
+      );
+    }
+
   function getTransactionCount() public view returns (uint256) {
     return transactionCounts[msg.sender];
+  }
+
+  function getVendorTransactionCount() public view returns (uint256) {
+      return vendorTransactionCounts[msg.sender];
   }
 
   function getVendorCount() public view returns (uint256) {

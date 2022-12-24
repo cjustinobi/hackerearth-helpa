@@ -16,6 +16,7 @@
     "@uauth/js": "^2.4.0",
     "@unstoppabledomains/resolution": "^8.3.3",
     "bignumber.js": "^9.1.1",
+    "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
     "react": "^18.2.0",
