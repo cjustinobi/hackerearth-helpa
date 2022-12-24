@@ -211,6 +211,7 @@ contract Helpa {
 
     function getVendorTransactions (uint256 _index) public view returns (
 
+      uint256 transactionIndex,
       address customer,
       Status status,
       uint256 dateCreated,
@@ -220,6 +221,7 @@ contract Helpa {
       VendorTransaction storage vendorTransaction = vendorTransactions[msg.sender][_index];
 
       return (
+      _index,
       vendorTransaction.customer,
       vendorTransaction.status,
       vendorTransaction.dateCreated,

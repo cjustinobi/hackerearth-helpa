@@ -5,11 +5,16 @@ export const addLibrary = urlOfTheLibrary => {
   document.body.appendChild(script)
 }
 
-export const modalCustomStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    width: '60%',
-    transform: 'translate(-50%, -50%)'
-  },
+export const modalCustomStyles = windowSize => {
+
+  const width = windowSize < 500 ? '90%' : '50%'
+
+  return {
+    content: {
+      top: '50%',
+      left: '50%',
+      width,
+      transform: 'translate(-50%, -50%)'
+    }
+  }
 }

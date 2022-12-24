@@ -3,22 +3,35 @@ import { createVendor } from '../../utils'
 
 const VendorModal = ({ closeTxModal }) => {
 
+  const [loading, setLoading] = useState(false)
   const [businessName, setBusinessName] = useState('')
-  const [profession, setProfession] = useState('')
+  const [profession, setProfession] = useState('default')
   const [logoPath, setLogoPath] = useState('')
   const [serviceCharge, setServiceCharge] = useState('')
   const [domain, setDomain] = useState('')
   const [description, setDescription] = useState('')
 
   const createVendorHandler = async () => {
+    setLoading(true)
     const res = await createVendor(businessName, profession, domain, logoPath, description, serviceCharge)
-    console.log('vendor created ', res)
+    if (res) {
+      setLoading(false)
+      document.getElementById('form').reset()
+      closeModal()
+    } else {
+      setLoading(false)
+    }
+  }
+
+  const closeModal = () => {
+    closeTxModal()
   }
 
  return (
-   <div>
+   <form id={'form'}>
      <input onChange={e => setBusinessName(e.target.value)} placeholder={'Business name'}/>
-     <select onChange={e => setProfession(e.target.value)}>
+     <select value={profession} onChange={e => setProfession(e.target.value)}>
+       <option value="default" disabled hidden>Select Skill</option>
        <option value="Software_Engineer">Software Engineer</option>
        <option value="Graphics Designer">Graphics Designer</option>
        <option value="UI/UX Designer">UI/UX Designer</option>
@@ -29,10 +42,12 @@ const VendorModal = ({ closeTxModal }) => {
      <input onChange={e => setLogoPath(e.target.value)} placeholder={'Business logo Path'}/>
      <input onChange={e => setDomain(e.target.value)} placeholder={'UD domain'}/>
      <input onChange={e => setServiceCharge(e.target.value)} placeholder={'Service charge'}/>
-     <input onChange={e => setDescription(e.target.value)} placeholder={'Description'}/>
-     <button onClick={createVendorHandler}>Submit</button>
-     <button onClick={() => closeTxModal()}>close</button>
-   </div>
+     <textarea minLength={10} maxLength={50} onChange={e => setDescription(e.target.value)} placeholder={'Description'}/>
+     <button type={'button'} onClick={createVendorHandler}>
+       {loading ? 'Submitting' : 'Submit'}
+     </button>
+     <button onClick={closeModal}>close</button>
+   </form>
  )
 }
 

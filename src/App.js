@@ -4,7 +4,8 @@ import Modal from 'react-modal'
 
 import { loginWithUD } from './services'
 import { modalCustomStyles } from './utils'
-import useExternalScripts from "./hooks/useExternalScripts"
+import useExternalScripts from './hooks/useExternalScripts'
+import useWindowSize from './hooks/useWindowSize'
 
 import Home from './pages/Home'
 import Jobs from './pages/Jobs'
@@ -28,7 +29,7 @@ function App() {
     console.log(res)
 
   }
-
+  const size = useWindowSize()
   const [modalTxIsOpen, setTxIsOpen] = useState(false);
   const [modalVendorIsOpen, setVendorIsOpen] = useState(false);
 
@@ -66,7 +67,7 @@ function App() {
         isOpen={modalTxIsOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeTxModal}
-        style={modalCustomStyles}
+        style={() => modalCustomStyles(size)}
         contentLabel="Example Modal"
       >
         <TransactionModal closeTxModal={closeTxModal} />

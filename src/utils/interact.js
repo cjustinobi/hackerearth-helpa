@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { pascalToWord, transactionStatus } from '../utils'
 import HelpaJson from '../artifacts/contracts/Helpa.sol/Helpa.json'
 
-const contractAddress = '0xdc201441Fd7509A6aBb8721193E7262fAB5430b2'
+const contractAddress = '0x9118607483E4c9237646899cad9991148d7fF74C'
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 const signer = provider.getSigner()
 const contractSigner = new ethers.Contract(contractAddress, HelpaJson.abi, signer)
