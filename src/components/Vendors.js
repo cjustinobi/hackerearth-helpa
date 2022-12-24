@@ -1,9 +1,13 @@
-import { useState, useEffect } from 'react'
+import {useState, useEffect, useContext} from 'react'
 import { BigNumber, ethers } from 'ethers'
 import { createTransaction, getVendors, test } from '../utils'
-import logo from "../assets/img/placeholder.jpg";
+import { AppContext } from '../contexts/AppContext'
+
+import logo from '../assets/img/placeholder.jpg'
 
 const Vendors = () => {
+
+  const {updateVendor, setUpdateVendor} = useContext(AppContext)
 
   const [vendors, setVendors] = useState(undefined)
 
@@ -12,24 +16,30 @@ const Vendors = () => {
     console.log(res)
   }
 
-  const testHandler = async () => {
-    const res = await test()
-    console.log(res)
-  }
+  // const testHandler = async () => {
+  //   const res = await test()
+  //   console.log(res)
+  // }
 
   useEffect( () => {
 
     const vendorsHandler = async () => {
 
       const res = await getVendors()
-      console.log(res)
+      if (res) {
+        setUpdateVendor(false)
+      }
       setVendors(res)
 
     }
 
+    if (updateVendor) {
+      vendorsHandler()
+    }
+
     vendorsHandler()
 
-  }, [getVendors])
+  }, [getVendors, updateVendor])
 
   return (
     <div className="product-container">

@@ -38,53 +38,32 @@ const Transactions = () => {
   }, [])
 
   return (
-    <div class="product-container">
+    <div className="product-container">
 
-      <div class="container">
+      <div className="container">
 
-        <div class="product-main">
+        <div className="product-main">
 
-          <h2 class="title">My Transactions</h2>
+          <h2 className="title">My Transactions</h2>
 
-          <div class="product-grid">
+          <div className="product-grid">
 
             {transactions && transactions.map(item => (
 
-              <div class="showcase">
+              <div className="showcase">
 
-                <div class="showcase-banner">
+                <div className="showcase-banner">
+                  <img src={logo} alt="transaction" width="300" />
 
+                <div className="showcase-content">
 
-
-                  {/*  <img src="../hack/download (1).jpg" alt="Mens Winter Leathers Jackets" width="300" class="product-img hover" style="transform: scale(0.9);">*/}
-
-            {/*      <div class="showcase-actions">*/}
-
-            {/*        <a href="../profile/profile 1/index.html">*/}
-            {/*          <button className="btn-action">*/}
-            {/*            <ion-icon name="person-outline"></ion-icon>*/}
-            {/*          </button>*/}
-            {/*        </a>*/}
-
-            {/*      </div>*/}
-
-            {/*    </div>*/}
-
-                <div class="showcase-content">
                   <small>{item.status}</small>
                   <p><small>Amount: {ethers.utils.formatEther(item.amount.toNumber())}</small></p>
                   <small>Created {formatDate(item.dateCreated.toNumber())}</small><br/>
                   {/*{item.status === 'Completed' && <small>Completed {formatDate(item.dateCreated.toNumber())}</small>}*/}
 
-            {/*      <a href="#" className="showcase-category">{vendor.businessName}</a>*/}
-
-            {/*      <a href="#">*/}
-            {/*        <h3 class="showcase-title">{vendor.profession}</h3>*/}
-            {/*      </a>*/}
-
-
-                  <div class="price-box">
-                    {item.status === 'In Progress' &&
+                  <div className="price-box">
+                    {(item.status === 'In Progress' || item.status === 'Reviewing') &&
                     <button className="btn" onClick={() => approveHandler(item.transactionIndex, item.vendor)}>Confirm</button>
                     }
                   </div>

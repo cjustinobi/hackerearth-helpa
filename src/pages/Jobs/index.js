@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react'
-import { ethers } from 'ethers'
-import {vendorTransactions, confirmService, formatDate} from '../../utils'
+import {vendorTransactions, forReview, formatDate} from '../../utils'
 
-import logo from '../../assets/img/placeholder.jpg'
 
 const Jobs = () => {
 
   const [transactions, setTransactions] = useState(undefined)
 
-  const approveHandler = async transIndex => {
-    const res = await confirmService(transIndex)
+  const approveHandler = async (transIndex, customerAddr) => {
+    const res = await forReview(transIndex, customerAddr)
     console.log(res)
   }
 
@@ -49,7 +47,7 @@ const Jobs = () => {
 
                   <div class="price-box">
                     {item.status === 'In Progress' &&
-                      <button className="btn" onClick={() => approveHandler(item.transactionIndex)}>
+                      <button className="btn" onClick={() => approveHandler(item.transactionIndex.toNumber(), item.customer)}>
                         Mark Completed
                       </button>
                     }

@@ -188,6 +188,18 @@ export const confirmService = async (transIndex, vendorAddr) => {
   }
 }
 
+export const forReview = async (transIndex, customerAddr) => {
+
+  if (typeof window.ethereum !== 'undefined') {
+    await requestAccount()
+
+    let txHash = await contractSigner.serviceReviewing(transIndex, customerAddr)
+
+    return await txHash.wait()
+
+  }
+}
+
 
 export const test = async () => {
 

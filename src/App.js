@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Modal from 'react-modal'
+import { AppContext } from './contexts/AppContext'
 
-import { loginWithUD } from './services'
+
+// import { loginWithUD } from './services'
 import { modalCustomStyles, modalCustomStyles2 } from './utils'
 import useExternalScripts from './hooks/useExternalScripts'
 import useWindowSize from './hooks/useWindowSize'
@@ -21,14 +23,14 @@ function App() {
   useExternalScripts('./assets/js/script')
   useExternalScripts('https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js')
 
-  const login = () => {
-    const res = loginWithUD()
-    console.log(res)
+  // const login = () => {
+  //   const res = loginWithUD()
+  //   console.log(res)
+  // }
 
-  }
   const size = useWindowSize()
-  // const [setTxIsOpen] = useState(false);
-  const [modalVendorIsOpen, setVendorIsOpen] = useState(false);
+  const [updateVendor, setUpdateVendor] = useState(false)
+  const [modalVendorIsOpen, setVendorIsOpen] = useState(false)
 
   function openVendorModal() {
     setVendorIsOpen(true);
@@ -45,7 +47,7 @@ function App() {
   }
 
   return (
-    <Router>
+    <AppContext.Provider value={{updateVendor, setUpdateVendor}}>
       <div class="overlay" data-overlay></div>
 
       <Header openVendorModal={openVendorModal} />
@@ -70,7 +72,7 @@ function App() {
         <Route path="/my-transactions" element={<Transactions/>}/>
       </Routes>
       <Footer />
-    </Router>
+    </AppContext.Provider>
   )
 }
 
