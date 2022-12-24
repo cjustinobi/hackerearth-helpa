@@ -18,9 +18,9 @@ const Transactions = () => {
     console.log(res)
   }
 
-  const getStatus = index => {
-    transactionStatus(index)
-  }
+  // const getStatus = index => {
+  //   transactionStatus(index)
+  // }
 
 
   useEffect( () => {

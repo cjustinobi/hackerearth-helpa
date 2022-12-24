@@ -94,7 +94,6 @@ export const createTransaction = async (vendorIndex, vendorAddress, amount) => {
     await requestAccount()
 
     try {
-      let a = new BigNumber(amount).shiftedBy(18).toString()
       const txHash = await contractSigner.createTransaction(
         vendorIndex,
         vendorAddress,
