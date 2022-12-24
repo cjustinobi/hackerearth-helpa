@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Routes, Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
 import Modal from 'react-modal'
 
 import { loginWithUD } from './services'
@@ -12,7 +12,6 @@ import Jobs from './pages/Jobs'
 import Transactions from './pages/Transactions'
 import Header from './components/layouts/Header'
 import Footer from './components/layouts/Footer'
-import TransactionModal from './components/layouts/TransactionModal'
 import VendorModal from './components/layouts/VendorModal'
 
 Modal.setAppElement('#root');
@@ -22,20 +21,14 @@ function App() {
   useExternalScripts('./assets/js/script')
   useExternalScripts('https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js')
 
-
-
   const login = () => {
     const res = loginWithUD()
     console.log(res)
 
   }
   const size = useWindowSize()
-  const [modalTxIsOpen, setTxIsOpen] = useState(false);
+  // const [setTxIsOpen] = useState(false);
   const [modalVendorIsOpen, setVendorIsOpen] = useState(false);
-
-  function openTransactionModal() {
-    setTxIsOpen(true);
-  }
 
   function openVendorModal() {
     setVendorIsOpen(true);
@@ -47,10 +40,6 @@ function App() {
     // subtitle.style.color = '#f00';
   }
 
-  function closeTxModal() {
-    setTxIsOpen(false);
-  }
-
   function closeVendorModal() {
     setVendorIsOpen(false);
   }
@@ -59,20 +48,9 @@ function App() {
     <Router>
       <div class="overlay" data-overlay></div>
 
-      <Header openVendorModal={openVendorModal} openTransactionModal={openTransactionModal} />
+      <Header openVendorModal={openVendorModal} />
 
     <div>
-
-      {/*<Modal*/}
-      {/*  isOpen={modalTxIsOpen}*/}
-      {/*  onAfterOpen={afterOpenModal}*/}
-      {/*  onRequestClose={closeTxModal}*/}
-      {/*  style={ size.width < 500 ? modalCustomStyles : modalCustomStyles2}*/}
-      {/*  contentLabel="Example Modal"*/}
-      {/*>*/}
-      {/*  <TransactionModal closeTxModal={closeTxModal} />*/}
-
-      {/*</Modal>*/}
 
       <Modal
         isOpen={modalVendorIsOpen}
@@ -91,7 +69,6 @@ function App() {
         <Route path="/my-jobs" element={<Jobs/>}/>
         <Route path="/my-transactions" element={<Transactions/>}/>
       </Routes>
-      {/*{addLibrary('./assets/js/script')}*/}
       <Footer />
     </Router>
   )
