@@ -69,11 +69,8 @@ const Vendors = () => {
 
               <div className="showcase-content">
 
-                <a href="#" className="showcase-category">{vendor.businessName}</a>
-
-                <a href="#">
-                  <h3 className="showcase-title">{vendor.profession}</h3>
-                </a>
+                <p className="showcase-category">{vendor.businessName}</p>
+                <h3 className="showcase-title">{vendor.profession}</h3>
                 <p><small>Completed Transactions:</small> {vendor.transCount.toNumber()}</p>
                 <p><small>Sales: {ethers.utils.formatEther(vendor.totalAmount.toNumber())}</small></p>
 
