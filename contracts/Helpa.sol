@@ -94,6 +94,8 @@ contract Helpa {
 
   ) public payable {
 
+    require(vendor != msg.sender, "You can't buy your own product");
+
     Status status = Status.InProgress;
     customerTransactions[msg.sender].push(Transaction(vendorIndex, vendor, payable(msg.sender), msg.value, status, block.timestamp, 0, 0));
     vendorTransactions[vendor].push(VendorTransaction(payable(msg.sender), status, block.timestamp, 0));
