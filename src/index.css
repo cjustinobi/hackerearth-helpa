@@ -81,11 +81,35 @@ code {
   monospace;
 }
 
+#form {
+  position: relative;
+}
+
 #form > * {
   width: 100%;
   margin-bottom: 5px;
 }
 
+.close-btn {
+
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.modal-btns {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-btns button {
+  width: 120px;
+}
+
+.modal-btns .cancel {
+  background: #c7c6c6;
+  margin-right: 12px;
+}
 
 
 /*-----------------------------------*\

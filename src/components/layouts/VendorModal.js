@@ -43,10 +43,13 @@ const VendorModal = ({ closeTxModal }) => {
      <input onChange={e => setDomain(e.target.value)} placeholder={'UD domain'}/>
      <input onChange={e => setServiceCharge(e.target.value)} placeholder={'Service charge'}/>
      <textarea minLength={10} maxLength={50} onChange={e => setDescription(e.target.value)} placeholder={'Description'}/>
-     <button type={'button'} onClick={createVendorHandler}>
-       {loading ? 'Submitting' : 'Submit'}
-     </button>
-     <button onClick={closeModal}>close</button>
+     <div className={'modal-btns'}>
+       <button className={'btn cancel'} onClick={closeModal}>Cancel</button>
+       <button className={'btn'} type={'button'} onClick={createVendorHandler}>
+         {loading ? 'Submitting' : 'Submit'}
+       </button>
+     </div>
+
    </form>
  )
 }

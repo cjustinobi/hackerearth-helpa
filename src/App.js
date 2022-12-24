@@ -3,7 +3,7 @@ import { Routes, Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import Modal from 'react-modal'
 
 import { loginWithUD } from './services'
-import { modalCustomStyles } from './utils'
+import { modalCustomStyles, modalCustomStyles2 } from './utils'
 import useExternalScripts from './hooks/useExternalScripts'
 import useWindowSize from './hooks/useWindowSize'
 
@@ -63,22 +63,22 @@ function App() {
 
     <div>
 
-      <Modal
-        isOpen={modalTxIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeTxModal}
-        style={() => modalCustomStyles(size)}
-        contentLabel="Example Modal"
-      >
-        <TransactionModal closeTxModal={closeTxModal} />
+      {/*<Modal*/}
+      {/*  isOpen={modalTxIsOpen}*/}
+      {/*  onAfterOpen={afterOpenModal}*/}
+      {/*  onRequestClose={closeTxModal}*/}
+      {/*  style={ size.width < 500 ? modalCustomStyles : modalCustomStyles2}*/}
+      {/*  contentLabel="Example Modal"*/}
+      {/*>*/}
+      {/*  <TransactionModal closeTxModal={closeTxModal} />*/}
 
-      </Modal>
+      {/*</Modal>*/}
 
       <Modal
         isOpen={modalVendorIsOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeVendorModal}
-        style={modalCustomStyles}
+        style={ size.width < 500 ? modalCustomStyles : modalCustomStyles2}
         contentLabel="Vendor Modal"
       >
         <VendorModal closeTxModal={closeVendorModal} />
