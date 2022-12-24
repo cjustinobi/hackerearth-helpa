@@ -1,6 +1,6 @@
 import {useState, useEffect, useContext} from 'react'
 import { BigNumber, ethers } from 'ethers'
-import { createTransaction, getVendors, test } from '../utils'
+import { createTransaction, getVendors } from '../utils'
 import { AppContext } from '../contexts/AppContext'
 
 import logo from '../assets/img/placeholder.jpg'
