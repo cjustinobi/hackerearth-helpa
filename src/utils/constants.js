@@ -1,4 +1,4 @@
-export const transactionStatus = index => {
+export const TRANSACTION_STATUS = index => {
   const status = [
     'Cancelled',
     'InProgress',
@@ -7,3 +7,5 @@ export const transactionStatus = index => {
   ]
   return status[index]
 }
+
+export const PINATA_GATEWAY = 'https://gateway.pinata.cloud/ipfs'

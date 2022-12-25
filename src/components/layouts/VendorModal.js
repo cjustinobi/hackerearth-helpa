@@ -1,5 +1,6 @@
 import {useContext, useState} from 'react'
 import { createVendor } from '../../utils'
+import { addToIPFS } from '../../services'
 import { AppContext } from '../../contexts/AppContext'
 
 
@@ -10,16 +11,24 @@ const VendorModal = ({ closeTxModal }) => {
   const [loading, setLoading] = useState(false)
   const [businessName, setBusinessName] = useState('')
   const [profession, setProfession] = useState('default')
-  const [logoPath, setLogoPath] = useState('')
+  const [image, setImage] = useState('')
   const [serviceCharge, setServiceCharge] = useState('')
   const [domain, setDomain] = useState('')
   const [description, setDescription] = useState('')
 
   const createVendorHandler = async () => {
-    if (isNotValid()) return alert('All fields are required')
+    // if (isNotValid()) return alert('All fields are required')
 
     setLoading(true)
-    const res = await createVendor(businessName, profession, domain, logoPath, description, serviceCharge)
+
+    let CID = new Promise(async resolve => {
+      const res = await addToIPFS(image)
+      resolve(res)
+    })
+
+   CID = await CID
+
+    const res = await createVendor(businessName, profession, domain, CID, description, serviceCharge)
     if (res) {
       setLoading(false)
       seUpdateVendor(true)
@@ -40,7 +49,7 @@ const VendorModal = ({ closeTxModal }) => {
     if (
       businessName === '' ||
       profession === 'default' ||
-      logoPath === '' ||
+      image === '' ||
       serviceCharge === '' ||
       domain === '' ||
       description === ''
@@ -63,7 +72,7 @@ const VendorModal = ({ closeTxModal }) => {
        <option value="Digital Marketer">Digital Marketer</option>
        <option value="Project Manager">Project Manager</option>
      </select>
-     <input onChange={e => setLogoPath(e.target.value)} placeholder={'Business logo Path'}/>
+     <input type={'file'} onChange={e => setImage(e.target.files[0])} placeholder={'Business logo'}/>
      <input onChange={e => setDomain(e.target.value)} placeholder={'UD domain'}/>
      <input onChange={e => setServiceCharge(e.target.value)} type={'number'} min={0} placeholder={'Service charge'}/>
      <textarea minLength={10} maxLength={50} onChange={e => setDescription(e.target.value)} placeholder={'Description'}/>

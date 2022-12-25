@@ -20,7 +20,7 @@ contract Helpa {
     string businessName;
     string profession;
     string UDName;
-    string imgUrl;
+    string CID;
     string description;
     uint256 price;
     uint256 totalAmount;
@@ -61,7 +61,7 @@ contract Helpa {
     string memory _businessName,
     string memory _profession,
     string memory _UDName,
-    string memory _imgUrl,
+    string memory _CID,
     string memory _description,
     uint256 _price
   ) public {
@@ -77,7 +77,7 @@ contract Helpa {
     vendor.businessName = _businessName;
     vendor.profession = _profession;
     vendor.UDName = _UDName;
-    vendor.imgUrl = _imgUrl;
+    vendor.CID = _CID;
     vendor.description = _description;
     vendor.price = _price;
     vendor.totalAmount = totalAmount;
@@ -161,7 +161,7 @@ contract Helpa {
     address vendorAddress,
     string memory businessName,
     string memory UDName,
-    string memory imgUrl,
+    string memory CID,
     string memory description,
     string memory profession,
     uint256 price,
@@ -175,7 +175,7 @@ contract Helpa {
     vendor.vendorAddress,
     vendor.businessName,
     vendor.UDName,
-    vendor.imgUrl,
+    vendor.CID,
     vendor.description,
     vendor.profession,
     vendor.price,

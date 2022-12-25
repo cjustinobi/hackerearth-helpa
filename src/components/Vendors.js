@@ -1,6 +1,6 @@
 import {useState, useEffect, useContext} from 'react'
 import { BigNumber, ethers } from 'ethers'
-import { createTransaction, getVendors } from '../utils'
+import { createTransaction, getVendors, PINATA_GATEWAY } from '../utils'
 import { AppContext } from '../contexts/AppContext'
 
 import logo from '../assets/img/placeholder.jpg'
@@ -58,7 +58,7 @@ const Vendors = () => {
 
               <div className="showcase-banner">
 
-                <img src={logo} alt="My logo" width="300" className="product-img default"/>
+                <img src={`${PINATA_GATEWAY}/${vendor.CID}`} alt="My logo" width="300" className="product-img default"/>
 
                 <div className="product-img hover">
                   <p>{vendor.description}</p>

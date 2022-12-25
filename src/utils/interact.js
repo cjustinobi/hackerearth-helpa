@@ -1,8 +1,8 @@
 import { ethers } from 'ethers'
-import { pascalToWord, transactionStatus } from '../utils'
+import { pascalToWord, TRANSACTION_STATUS } from '../utils'
 import HelpaJson from '../artifacts/contracts/Helpa.sol/Helpa.json'
 
-const contractAddress = '0x9118607483E4c9237646899cad9991148d7fF74C'
+const contractAddress = '0xf4aCfF839DeE64aFF2Df0326E3BcfcFcFbE2Dc03'
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 const signer = provider.getSigner()
 const contractSigner = new ethers.Contract(contractAddress, HelpaJson.abi, signer)
@@ -47,7 +47,7 @@ export const customerTransactions = async () => {
     }
     let result = await Promise.all(transactions)
 
-    return result.map(item => ({...item, status: pascalToWord(transactionStatus(item.status)).trim()}))
+    return result.map(item => ({...item, status: pascalToWord(TRANSACTION_STATUS(item.status)).trim()}))
 
   }
 }
@@ -81,7 +81,7 @@ export const vendorTransactions = async () => {
     }
     let result = await Promise.all(transactions)
 
-    return result.map(item => ({...item, status: pascalToWord(transactionStatus(item.status)).trim()}))
+    return result.map(item => ({...item, status: pascalToWord(TRANSACTION_STATUS(item.status)).trim()}))
 
   }
 }
@@ -111,7 +111,7 @@ export const createTransaction = async (vendorIndex, vendorAddress, amount) => {
 
 
 
-export const createVendor = async (businessName, profession, domain, logoPath, desc, amount) => {
+export const createVendor = async (businessName, profession, domain, CID, desc, amount) => {
 
 
   if (typeof window.ethereum !== 'undefined') {
@@ -123,7 +123,7 @@ export const createVendor = async (businessName, profession, domain, logoPath, d
         businessName,
         profession,
         domain,
-        logoPath,
+        CID,
         desc,
         ethers.utils.parseEther(amount)
       )
