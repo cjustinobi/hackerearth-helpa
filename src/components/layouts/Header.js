@@ -34,7 +34,7 @@ const Header = ({ openVendorModal }) => {
       }
     }
 
-  })
+  }, [address, vendors])
 
   return (
     <header>

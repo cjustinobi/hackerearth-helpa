@@ -31,7 +31,7 @@ const Vendors = () => {
 
     vendorsHandler()
 
-  }, [updateVendor, setUpdateVendor])
+  }, [setVendors, updateVendor, setUpdateVendor])
 
   return (
     <div className="product-container">

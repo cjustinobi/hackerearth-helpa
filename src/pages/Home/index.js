@@ -24,13 +24,13 @@ const Home = ({openVendorModal}) => {
     getAccount()
 
     if (address && vendors) {
-      const vendor = vendors.find(v => lowerCaseAddr(v.vendorAddress) == address)
+      const vendor = vendors.find(v => lowerCaseAddr(v.vendorAddress) === address)
       if (vendor) {
         setVendorExists(true)
       }
     }
 
-  })
+  }, [address, vendors])
 
   return (
     <main>
