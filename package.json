@@ -9,7 +9,6 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@rainbow-me/rainbowkit": "^0.8.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -17,7 +16,6 @@
     "@unstoppabledomains/resolution": "^8.3.3",
     "axios": "^1.2.1",
     "bignumber.js": "^9.1.1",
-    "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
     "react": "^18.2.0",
@@ -25,9 +23,7 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.5.0",
     "react-scripts": "5.0.1",
-    "wagmi": "^0.9.2",
-    "web-vitals": "^2.1.4",
-    "web3": "^1.8.1"
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",

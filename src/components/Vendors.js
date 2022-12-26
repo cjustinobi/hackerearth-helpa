@@ -3,8 +3,6 @@ import { BigNumber, ethers } from 'ethers'
 import { createTransaction, getVendors, PINATA_GATEWAY } from '../utils'
 import { AppContext } from '../contexts/AppContext'
 
-import logo from '../assets/img/placeholder.jpg'
-
 const Vendors = () => {
 
   const {updateVendor, setUpdateVendor} = useContext(AppContext)

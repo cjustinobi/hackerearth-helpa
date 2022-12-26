@@ -6,7 +6,7 @@ import { AppContext } from '../../contexts/AppContext'
 
 const VendorModal = ({ closeTxModal }) => {
 
-  const { seUpdateVendor } = useContext(AppContext)
+  const { setUpdateVendor } = useContext(AppContext)
 
   const [loading, setLoading] = useState(false)
   const [businessName, setBusinessName] = useState('')
@@ -17,7 +17,8 @@ const VendorModal = ({ closeTxModal }) => {
   const [description, setDescription] = useState('')
 
   const createVendorHandler = async () => {
-    // if (isNotValid()) return alert('All fields are required')
+
+    if (isNotValid()) return alert('All fields are required')
 
     setLoading(true)
 
@@ -31,7 +32,7 @@ const VendorModal = ({ closeTxModal }) => {
     const res = await createVendor(businessName, profession, domain, CID, description, serviceCharge)
     if (res) {
       setLoading(false)
-      seUpdateVendor(true)
+      setUpdateVendor(true)
       document.getElementById('form').reset()
       closeModal()
     } else {

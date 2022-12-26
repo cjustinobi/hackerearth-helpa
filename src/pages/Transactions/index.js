@@ -3,10 +3,11 @@ import { ethers } from 'ethers'
 import {
   customerTransactions,
   confirmService,
-  formatDate
+  formatDate,
+  PINATA_GATEWAY
 } from '../../utils'
 
-import logo from '../../assets/img/placeholder.jpg'
+// import logo from '../../assets/img/placeholder.jpg'
 
 const Transactions = () => {
 
@@ -52,7 +53,7 @@ const Transactions = () => {
               <div className="showcase">
 
                 <div className="showcase-banner">
-                  <img src={logo} alt="transaction" width="300" />
+                  <img src={`${PINATA_GATEWAY}/${item.CID}`} alt="transaction" width="300" />
 
                 <div className="showcase-content">
 

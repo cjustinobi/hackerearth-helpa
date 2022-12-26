@@ -193,10 +193,12 @@ contract Helpa {
     Status status,
     uint256 dateCreated,
     uint256 dateCompleted,
-    uint256 dateReviewing
+    uint256 dateReviewing,
+    string memory CID
   ) {
 
     Transaction storage transaction = customerTransactions[msg.sender][_index];
+    Vendor storage _vendor = vendors[transaction.vendorIndex];
 
     return (
     _index,
@@ -207,7 +209,8 @@ contract Helpa {
     transaction.status,
     transaction.dateCreated,
     transaction.dateCompleted,
-    transaction.dateReviewing
+    transaction.dateReviewing,
+    _vendor.CID
     );
   }
 
