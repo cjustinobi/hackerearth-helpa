@@ -1,13 +1,18 @@
-import { useState, useEffect } from 'react'
+import {useState, useEffect, useContext} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { requestAccount, truncateAddr } from '../../utils'
+import { requestAccount, truncateAddr, lowerCaseAddr } from '../../utils'
+import { VendorListContext } from '../../contexts/AppContext'
+
 import logo from '../../assets/img/logo.png'
 
 const Header = ({ openVendorModal }) => {
 
   const navigate = useNavigate()
 
+  const { vendors } = useContext(VendorListContext)
+
   const [address, setAddress] = useState(undefined)
+  const [vendorExists, setVendorExists] = useState(false)
 
   const connect = () => {
     if (address) return
@@ -21,6 +26,13 @@ const Header = ({ openVendorModal }) => {
     }
 
     getAccount()
+
+    if (address && vendors) {
+      const vendor = vendors.find(v => lowerCaseAddr(v.vendorAddress) == address)
+      if (vendor) {
+        setVendorExists(true)
+      }
+    }
 
   })
 
@@ -44,7 +56,18 @@ const Header = ({ openVendorModal }) => {
             <button onClick={connect} className={'banner-btn btn-address'}>
               {address ? truncateAddr(address) : 'Connect Wallet'}
             </button>
-            <button className={'banner-btn'} onClick={() => openVendorModal()} >Create Account</button>
+            {!vendorExists && <button className={'banner-btn'} onClick={() => openVendorModal()} >
+              Create Account
+            </button>}
+          </div>
+
+          <div className="mobile-btns">
+            <button onClick={connect} className={'banner-btn btn-address'}>
+              {address ? truncateAddr(address) : 'Connect Wallet'}
+            </button>
+            {!vendorExists && <button className={'banner-btn'} onClick={() => openVendorModal()} >
+              Create Account
+            </button>}
           </div>
 
         </div>

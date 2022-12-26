@@ -2727,8 +2727,15 @@ footer {
 
 @media (min-width: 570px) {
   .mobile-bottom-navigation { display: none; }
+  .mobile-btns { display: none; }
 }
 
 @media (max-width: 569px) {
   .links { display: none; }
+  .modal-btns {
+    right: 8px;
+    top: 31px;
+    position: absolute;
+    z-index: 999999;
+  }
 }

@@ -1,13 +1,12 @@
-import {useState, useEffect, useContext} from 'react'
+import { useEffect, useContext } from 'react'
 import { BigNumber, ethers } from 'ethers'
 import { createTransaction, getVendors, PINATA_GATEWAY } from '../utils'
-import { VendorContext } from '../contexts/AppContext'
+import { VendorContext, VendorListContext } from '../contexts/AppContext'
 
 const Vendors = () => {
 
-  const {updateVendor, setUpdateVendor} = useContext(VendorContext)
-
-  const [vendors, setVendors] = useState(undefined)
+  const { updateVendor, setUpdateVendor } = useContext(VendorContext)
+  const { vendors, setVendors } = useContext(VendorListContext)
 
   const transactionHandler = async (vendorIndex, vendorAddr, amount) => {
     const res = await createTransaction(vendorIndex, vendorAddr, amount)
@@ -44,7 +43,6 @@ const Vendors = () => {
           <h2 className="title">Service Providers</h2>
 
           <div className="product-grid">
-            {/*<button onClick={testHandler}>Test</button>*/}
           {vendors && vendors.map((vendor, i) => (
 
             <div className="showcase" key={i}>

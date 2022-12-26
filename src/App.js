@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Modal from 'react-modal'
-import { VendorContext } from './contexts/AppContext'
+import { VendorContext, VendorListContext } from './contexts/AppContext'
 
 
 // import { loginWithUD } from './services'
@@ -31,6 +31,8 @@ function App() {
   const size = useWindowSize()
   const [updateVendor, setUpdateVendor] = useState(false)
   const [modalVendorIsOpen, setVendorIsOpen] = useState(false)
+  const [vendors, setVendors] = useState(undefined)
+
 
   function openVendorModal() {
     setVendorIsOpen(true);
@@ -47,32 +49,34 @@ function App() {
   }
 
   return (
-    <VendorContext.Provider value={{updateVendor, setUpdateVendor}}>
-      <div class="overlay" data-overlay></div>
+    <VendorListContext.Provider value={{vendors, setVendors}}>
+      <VendorContext.Provider value={{updateVendor, setUpdateVendor}}>
+        <div class="overlay" data-overlay></div>
 
-      <Header openVendorModal={openVendorModal} />
+        <Header openVendorModal={openVendorModal} />
 
-    <div>
+        <div>
 
-      <Modal
-        isOpen={modalVendorIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeVendorModal}
-        style={ size.width < 500 ? modalCustomStyles : modalCustomStyles2}
-        contentLabel="Vendor Modal"
-      >
-        <VendorModal closeTxModal={closeVendorModal} />
+          <Modal
+            isOpen={modalVendorIsOpen}
+            onAfterOpen={afterOpenModal}
+            onRequestClose={closeVendorModal}
+            style={ size.width < 500 ? modalCustomStyles : modalCustomStyles2}
+            contentLabel="Vendor Modal"
+          >
+            <VendorModal closeTxModal={closeVendorModal} />
 
-      </Modal>
+          </Modal>
 
-    </div>
-      <Routes>
-        <Route path="/" element={<Home  openVendorModal={openVendorModal}/>}/>
-        <Route path="/my-jobs" element={<Jobs/>}/>
-        <Route path="/my-transactions" element={<Transactions/>}/>
-      </Routes>
-      <Footer />
-    </VendorContext.Provider>
+        </div>
+        <Routes>
+          <Route path="/" element={<Home  openVendorModal={openVendorModal}/>}/>
+          <Route path="/my-jobs" element={<Jobs/>}/>
+          <Route path="/my-transactions" element={<Transactions/>}/>
+        </Routes>
+        <Footer />
+      </VendorContext.Provider>
+    </VendorListContext.Provider>
   )
 }
 

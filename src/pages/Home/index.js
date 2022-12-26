@@ -1,8 +1,37 @@
+import { useContext, useEffect, useState } from 'react'
+import { lowerCaseAddr, requestAccount } from '../../utils'
 import Vendors from '../../components/Vendors'
+import { VendorListContext } from '../../contexts/AppContext'
+
 import hero from '../../assets/img/hero.png'
 
 
+
+
 const Home = ({openVendorModal}) => {
+
+  const { vendors } = useContext(VendorListContext)
+
+  const [address, setAddress] = useState(undefined)
+  const [vendorExists, setVendorExists] = useState(false)
+
+  useEffect(() => {
+    const getAccount = async () => {
+      const res = await requestAccount()
+      setAddress(res[0])
+    }
+
+    getAccount()
+
+    if (address && vendors) {
+      const vendor = vendors.find(v => lowerCaseAddr(v.vendorAddress) == address)
+      if (vendor) {
+        setVendorExists(true)
+      }
+    }
+
+  })
+
   return (
     <main>
       <div className="banner">
@@ -17,15 +46,15 @@ const Home = ({openVendorModal}) => {
 
               <div className="banner-content">
 
-                {/*<p className="banner-subtitle">NEW</p>*/}
-
                 <h2 className="banner-title">Getting Tech Artisans should'nt be hard</h2>
 
                 <p className="banner-text">
                   Focus on what matters!
                 </p>
 
-                <button onClick={() => openVendorModal()} className="banner-btn">Create Account</button>
+                {!vendorExists && <button onClick={() => openVendorModal()} className="banner-btn">
+                  Create Account
+                </button>}
 
               </div>
 
