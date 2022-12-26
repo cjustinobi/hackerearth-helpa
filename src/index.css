@@ -2715,7 +2715,7 @@ footer {
   }
 }
 
-@media (max-width: 640px) {
+@media (min-width: 480px) and (max-width: 640px) {
   .banner-content {
     bottom: 25px;
     left: 35px;
@@ -2725,6 +2725,17 @@ footer {
   }
 }
 
+@media (max-width: 479px) {
+  .banner-content {
+    bottom: 25px;
+    left: 35px;
+    top: 150px;
+    right: auto;
+    padding: 0;
+  }
+}
+
+
 @media (min-width: 570px) {
   .mobile-bottom-navigation { display: none; }
   .mobile-btns { display: none; }
@@ -2732,10 +2743,14 @@ footer {
 
 @media (max-width: 569px) {
   .links { display: none; }
-  .modal-btns {
+  .mobile-btns {
     right: 8px;
-    top: 31px;
+    top: 27px;
     position: absolute;
     z-index: 999999;
+    display: flex;
+  }
+  .mobile-btns button {
+    margin-left: 10px;
   }
 }
