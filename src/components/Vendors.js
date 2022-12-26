@@ -1,11 +1,11 @@
 import {useState, useEffect, useContext} from 'react'
 import { BigNumber, ethers } from 'ethers'
 import { createTransaction, getVendors, PINATA_GATEWAY } from '../utils'
-import { AppContext } from '../contexts/AppContext'
+import { VendorContext } from '../contexts/AppContext'
 
 const Vendors = () => {
 
-  const {updateVendor, setUpdateVendor} = useContext(AppContext)
+  const {updateVendor, setUpdateVendor} = useContext(VendorContext)
 
   const [vendors, setVendors] = useState(undefined)
 
@@ -13,11 +13,6 @@ const Vendors = () => {
     const res = await createTransaction(vendorIndex, vendorAddr, amount)
     console.log(res)
   }
-
-  // const testHandler = async () => {
-  //   const res = await test()
-  //   console.log(res)
-  // }
 
   useEffect( () => {
 

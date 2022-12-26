@@ -91,10 +91,13 @@ code {
 }
 
 .close-btn {
-
   position: absolute;
   right: 20px;
   top: 20px;
+}
+
+.btn-address {
+  background: #222 !important;
 }
 
 .modal-btns {

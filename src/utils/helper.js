@@ -11,3 +11,8 @@ export const formatDate = timestamp => {
   return date.toDateString()
 
 }
+
+export const truncateAddr = input => {
+  if (!input) return
+  return `${input.substring(0, 5)}...${input.slice(-4)}`
+}

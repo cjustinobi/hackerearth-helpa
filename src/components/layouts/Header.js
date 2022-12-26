@@ -1,9 +1,28 @@
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { requestAccount, truncateAddr } from '../../utils'
 import logo from '../../assets/img/logo.png'
 
 const Header = ({ openVendorModal }) => {
 
   const navigate = useNavigate()
+
+  const [address, setAddress] = useState(undefined)
+
+  const connect = () => {
+    if (address) return
+    requestAccount()
+  }
+
+  useEffect(() => {
+    const getAccount = async () => {
+      const res = await requestAccount()
+      setAddress(res[0])
+    }
+
+    getAccount()
+
+  })
 
   return (
     <header>
@@ -22,8 +41,9 @@ const Header = ({ openVendorModal }) => {
           </div>
 
           <div className="header-user-actions">
-
-            {/*<button className={'action-btn'} onClick={() => openTransactionModal()} >create tx</button>*/}
+            <button onClick={connect} className={'banner-btn btn-address'}>
+              {address ? truncateAddr(address) : 'Connect Wallet'}
+            </button>
             <button className={'banner-btn'} onClick={() => openVendorModal()} >Create Account</button>
           </div>
 

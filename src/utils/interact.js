@@ -10,12 +10,12 @@ const contract = new ethers.Contract(contractAddress, HelpaJson.abi, provider);
 
 
 
-async function requestAccount() {
+export async function requestAccount() {
   try {
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
+    return await window.ethereum.request({ method: 'eth_requestAccounts' })
   } catch (error) {
     console.error(error);
-    console.log('Login to Metamask first');
+    console.log('Login to Metamask first')
   }
 }
 

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Modal from 'react-modal'
-import { AppContext } from './contexts/AppContext'
+import { VendorContext } from './contexts/AppContext'
 
 
 // import { loginWithUD } from './services'
@@ -47,7 +47,7 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{updateVendor, setUpdateVendor}}>
+    <VendorContext.Provider value={{updateVendor, setUpdateVendor}}>
       <div class="overlay" data-overlay></div>
 
       <Header openVendorModal={openVendorModal} />
@@ -72,7 +72,7 @@ function App() {
         <Route path="/my-transactions" element={<Transactions/>}/>
       </Routes>
       <Footer />
-    </AppContext.Provider>
+    </VendorContext.Provider>
   )
 }
 

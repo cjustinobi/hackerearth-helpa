@@ -1,12 +1,12 @@
 import {useContext, useState} from 'react'
 import { createVendor } from '../../utils'
 import { addToIPFS } from '../../services'
-import { AppContext } from '../../contexts/AppContext'
+import { VendorContext } from '../../contexts/AppContext'
 
 
 const VendorModal = ({ closeTxModal }) => {
 
-  const { setUpdateVendor } = useContext(AppContext)
+  const { setUpdateVendor } = useContext(VendorContext)
 
   const [loading, setLoading] = useState(false)
   const [businessName, setBusinessName] = useState('')

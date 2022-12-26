@@ -1,3 +1,3 @@
 import { createContext } from 'react'
 
-export const AppContext = createContext(false)
+export const VendorContext = createContext(false)
