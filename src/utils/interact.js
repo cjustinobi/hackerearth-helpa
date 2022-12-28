@@ -1,14 +1,12 @@
-import { ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import { pascalToWord, TRANSACTION_STATUS } from '../utils'
 import HelpaJson from '../artifacts/contracts/Helpa.sol/Helpa.json'
 
-const contractAddress = '0xab1c956c4ac85Dc23aE9c10AA3E7Bd96E0C60674'
+const contractAddress = '0x8582037b7Cb2Ac3C89FdD51E19E20E5890A3CF4E'
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 const signer = provider.getSigner()
 const contractSigner = new ethers.Contract(contractAddress, HelpaJson.abi, signer)
-const contract = new ethers.Contract(contractAddress, HelpaJson.abi, provider);
-
-
+const contract = new ethers.Contract(contractAddress, HelpaJson.abi, provider)
 
 export async function requestAccount() {
   try {
@@ -199,19 +197,25 @@ export const forReview = async (transIndex, customerAddr) => {
 }
 
 
-export const test = async () => {
 
-  if (typeof window.ethereum !== "undefined") {
+export const sendTx = async  (receiver, amount) => {
+
+  if (typeof window.ethereum !== 'undefined') {
     await requestAccount()
 
     try {
-      // const res = await contract.getTransactions(0)
-      // const res = await contract.getTransactionCount()
-      const res = await contract.getBal()
-      console.log(res.toNumber())
-      // console.log(res)
+      const txHash = await contractSigner.tip(
+        receiver,
+        {
+          // value: ethers.utils.parseUnits(amount, 'ether').toHexString()
+          value: ethers.utils.parseEther(BigNumber.from(amount.toString()))
+
+        }
+      )
+      return await txHash.wait()
+
     } catch (err) {
-      console.log("Error: ", err);
+      console.log('Error: ', err);
     }
   }
 }

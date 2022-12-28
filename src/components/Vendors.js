@@ -9,8 +9,7 @@ const Vendors = () => {
   const { vendors, setVendors } = useContext(VendorListContext)
 
   const transactionHandler = async (vendorIndex, vendorAddr, amount) => {
-    const res = await createTransaction(vendorIndex, vendorAddr, amount)
-    console.log(res)
+    await createTransaction(vendorIndex, vendorAddr, amount)
   }
 
   useEffect( () => {
@@ -19,6 +18,7 @@ const Vendors = () => {
 
       const res = await getVendors()
       if (res) {
+        console.log(res)
         setUpdateVendor(false)
       }
       setVendors(res)

@@ -1,7 +1,7 @@
-import {useState, useEffect, useContext} from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { requestAccount, truncateAddr, lowerCaseAddr } from '../../utils'
-import { VendorListContext } from '../../contexts/AppContext'
+import { truncateAddr } from '../../utils'
+import { login } from '../../services'
 
 import logo from '../../assets/img/logo.png'
 
@@ -9,32 +9,23 @@ const Header = ({ openVendorModal }) => {
 
   const navigate = useNavigate()
 
-  const { vendors } = useContext(VendorListContext)
+  const [vendorExists] = useState(false)
+  const [address, setAddress] = useState('')
 
-  const [address, setAddress] = useState(undefined)
-  const [vendorExists, setVendorExists] = useState(false)
-
-  const connect = () => {
-    if (address) return
-    requestAccount()
+  const connect = async () => {
+    const res = await login()
+    console.log(res)
+    const addr = res.idToken.wallet_address
+    localStorage.setItem('address', addr)
+    setAddress(addr)
   }
 
   useEffect(() => {
-    const getAccount = async () => {
-      const res = await requestAccount()
-      setAddress(res[0])
+    const addr = localStorage.getItem('address')
+    if (addr) {
+      setAddress(addr)
     }
-
-    getAccount()
-
-    if (address && vendors) {
-      const vendor = vendors.find(v => lowerCaseAddr(v.vendorAddress) === address)
-      if (vendor) {
-        setVendorExists(true)
-      }
-    }
-
-  }, [address, vendors])
+  }, [setAddress])
 
   return (
     <header>
@@ -54,7 +45,7 @@ const Header = ({ openVendorModal }) => {
 
           <div className="header-user-actions">
             <button onClick={connect} className={'banner-btn btn-address'}>
-              {address ? truncateAddr(address) : 'Connect Wallet'}
+              {address ? `${truncateAddr(address)}` : 'Connect Wallet'}
             </button>
             {!vendorExists && <button className={'banner-btn'} onClick={() => openVendorModal()} >
               Create Account

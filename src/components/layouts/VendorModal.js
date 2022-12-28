@@ -1,6 +1,6 @@
-import {useContext, useState} from 'react'
+import { useContext, useState } from 'react'
 import { createVendor } from '../../utils'
-import { addToIPFS } from '../../services'
+import { addToIPFS, domainResolution } from '../../services'
 import { VendorContext } from '../../contexts/AppContext'
 
 
@@ -15,6 +15,7 @@ const VendorModal = ({ closeTxModal }) => {
   const [serviceCharge, setServiceCharge] = useState('')
   const [domain, setDomain] = useState('')
   const [description, setDescription] = useState('')
+  const [ud, setUd] = useState('')
 
   const createVendorHandler = async () => {
 
@@ -61,6 +62,12 @@ const VendorModal = ({ closeTxModal }) => {
     return res
   }
 
+  const setDomainRes = async () => {
+    const res = await domainResolution(domain)
+    setUd(res)
+  }
+
+
  return (
    <form id={'form'}>
      <input onChange={e => setBusinessName(e.target.value)} placeholder={'Business name'}/>
@@ -74,7 +81,12 @@ const VendorModal = ({ closeTxModal }) => {
        <option value="Project Manager">Project Manager</option>
      </select>
      <input type={'file'} onChange={e => setImage(e.target.files[0])} placeholder={'Business logo'}/>
-     <input onChange={e => setDomain(e.target.value)} placeholder={'UD domain'}/>
+     <div id="input-btn-container">
+      <input onChange={e => setDomain(e.target.value)} placeholder={'UD domain'}/>
+      <input onClick={() => setDomainRes()} className={'input-btn'} type="button" value="Resolve Address" /> 
+      <small>{ud}</small>
+     </div>
+    
      <input onChange={e => setServiceCharge(e.target.value)} type={'number'} min={0} placeholder={'Service charge'}/>
      <textarea minLength={10} maxLength={50} onChange={e => setDescription(e.target.value)} placeholder={'Description'}/>
      <div className={'modal-btns'}>

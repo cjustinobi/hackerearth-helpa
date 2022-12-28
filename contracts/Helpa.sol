@@ -152,6 +152,13 @@ contract Helpa {
   }
 
 
+    function tip(address payable _to, uint256 _amount) public payable {
+
+      (bool success, ) = _to.call{value: _amount}("");
+      require(success, "Failed to send Ether");
+    }
+
+
   function getBal() public view returns (uint256) {
 
     return address(this).balance;
@@ -194,7 +201,8 @@ contract Helpa {
     uint256 dateCreated,
     uint256 dateCompleted,
     uint256 dateReviewing,
-    string memory CID
+    string memory CID,
+    string memory UDName
   ) {
 
     Transaction storage transaction = customerTransactions[msg.sender][_index];
@@ -210,7 +218,8 @@ contract Helpa {
     transaction.dateCreated,
     transaction.dateCompleted,
     transaction.dateReviewing,
-    _vendor.CID
+    _vendor.CID,
+    _vendor.UDName
     );
   }
 

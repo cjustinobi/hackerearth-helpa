@@ -3,8 +3,6 @@ import { Routes, Route } from 'react-router-dom'
 import Modal from 'react-modal'
 import { VendorContext, VendorListContext } from './contexts/AppContext'
 
-
-// import { loginWithUD } from './services'
 import { modalCustomStyles, modalCustomStyles2 } from './utils'
 import useExternalScripts from './hooks/useExternalScripts'
 import useWindowSize from './hooks/useWindowSize'
@@ -13,7 +11,7 @@ import Home from './pages/Home'
 import Jobs from './pages/Jobs'
 import Transactions from './pages/Transactions'
 import Header from './components/layouts/Header'
-import Footer from './components/layouts/Footer'
+// import Footer from './components/layouts/Footer'
 import VendorModal from './components/layouts/VendorModal'
 
 Modal.setAppElement('#root');
@@ -22,11 +20,6 @@ function App() {
 
   useExternalScripts('./assets/js/script')
   useExternalScripts('https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js')
-
-  // const login = () => {
-  //   const res = loginWithUD()
-  //   console.log(res)
-  // }
 
   const size = useWindowSize()
   const [updateVendor, setUpdateVendor] = useState(false)
@@ -74,7 +67,7 @@ function App() {
           <Route path="/my-jobs" element={<Jobs/>}/>
           <Route path="/my-transactions" element={<Transactions/>}/>
         </Routes>
-        <Footer />
+        {/*<Footer />*/}
       </VendorContext.Provider>
     </VendorListContext.Provider>
   )

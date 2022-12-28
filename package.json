@@ -14,6 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@uauth/js": "^2.4.0",
     "@unstoppabledomains/resolution": "^8.3.3",
+    "@walletconnect/ethereum-provider": "^1.8.0",
     "axios": "^1.2.1",
     "bignumber.js": "^9.1.1",
     "dotenv": "^16.0.3",

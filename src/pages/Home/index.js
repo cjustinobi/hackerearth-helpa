@@ -5,9 +5,6 @@ import { VendorListContext } from '../../contexts/AppContext'
 
 import hero from '../../assets/img/hero.png'
 
-
-
-
 const Home = ({openVendorModal}) => {
 
   const { vendors } = useContext(VendorListContext)
@@ -46,7 +43,7 @@ const Home = ({openVendorModal}) => {
 
               <div className="banner-content">
 
-                <h2 className="banner-title">Getting Tech Artisans should'nt be hard</h2>
+                <h2 className="banner-title">Getting Tech Artisans shouldn't be hard</h2>
 
                 <p className="banner-text">
                   Focus on what matters!

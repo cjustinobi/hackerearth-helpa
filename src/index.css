@@ -115,6 +115,50 @@ code {
 }
 
 
+#input-btn-container {
+  position: relative;
+  display: inline-block;
+
+}
+
+.tip {
+  background: #bfbdbd;
+  padding: 3px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tip-form {
+  margin-top: 4px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-gap: 2px;
+  transition: 0.5s;
+}
+
+.hide-tp-form {
+  display: none;
+  overflow: hidden;
+}
+
+
+.input-btn[type=button] {
+  position:absolute;
+  width: 160px;
+  height: 20px;
+  top: 0px;
+  right: 0px;
+  border: none;
+  color: white;
+  display: block;
+  cursor: pointer;
+  background: #647cbf;
+  margin: 3px;
+  border-radius: 5px;
+}
+
+
+
 /*-----------------------------------*\
   #RESET
 \*-----------------------------------*/
@@ -2638,6 +2682,7 @@ footer {
     flex-direction: row;
     text-align: left;
   }
+
 
 
 

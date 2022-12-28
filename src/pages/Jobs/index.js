@@ -27,25 +27,25 @@ const Jobs = () => {
   }, [])
 
   return (
-    <div class="product-container">
+    <div className="product-container">
 
-      <div class="container">
+      <div className="container">
 
-        <div class="product-main">
+        <div className="product-main">
 
-          <h2 class="title">My Jobs</h2>
+          <h2 className="title">My Jobs</h2>
 
-          <div class="product-grid">
+          <div className="product-grid">
 
             {transactions && transactions.map(item => (
 
-              <div class="showcase">
+              <div className="showcase">
 
-                <div class="showcase-banner">
+                <div className="showcase-banner">
                   <small>Created {formatDate(item.dateCreated.toNumber())}</small><br/>
                   <small>{item.status}</small>
 
-                  <div class="price-box">
+                  <div className="price-box">
                     {item.status === 'In Progress' &&
                       <button className="btn" onClick={() => approveHandler(item.transactionIndex.toNumber(), item.customer)}>
                         Mark Completed
