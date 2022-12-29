@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { lowerCaseAddr, requestAccount } from '../../utils'
+import { requestAccount } from '../../utils'
 import Vendors from '../../components/Vendors'
 import { VendorListContext } from '../../contexts/AppContext'
 
@@ -10,7 +10,7 @@ const Home = ({openVendorModal}) => {
   const { vendors } = useContext(VendorListContext)
 
   const [address, setAddress] = useState(undefined)
-  const [setVendorExists] = useState(false)
+  // const [setVendorExists] = useState(false)
 
   useEffect(() => {
     const getAccount = async () => {
@@ -20,14 +20,14 @@ const Home = ({openVendorModal}) => {
 
     getAccount()
 
-    if (address && vendors) {
-      const vendor = vendors.find(v => lowerCaseAddr(v.vendorAddress) === address)
-      if (vendor) {
-        setVendorExists(true)
-      }
-    }
+    // if (address && vendors) {
+    //   const vendor = vendors.find(v => lowerCaseAddr(v.vendorAddress) === address)
+    //   if (vendor) {
+    //     setVendorExists(true)
+    //   }
+    // }
 
-  }, [address, vendors, setVendorExists])
+  }, [address, vendors])
 
   return (
     <main>
