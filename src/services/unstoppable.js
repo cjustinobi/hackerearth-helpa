@@ -7,9 +7,9 @@ const resolution = new Resolution()
 
 const uauth = new UAuth({
   clientID: '517e5112-cd4e-42a1-9959-883451fcaafb',
-  // redirectUri: "https://cjustinobi.github.io/unstoppable-healthy-street/",
-  redirectUri: "http://localhost:3000",
-  scope: "openid wallet"
+  redirectUri: 'https://myhelpa.netlify.app/',
+  // redirectUri: 'http://localhost:3000',
+  scope: 'openid wallet'
 })
 
 export const domainResolution = async domain => {
@@ -28,25 +28,3 @@ export const login = async () => {
 export const logout = async () => {
   return await uauth.logout()
 }
-
-
-
-
-
-
-
-
-// import UAuth from '@uauth/js'
-
-// const uauth = new UAuth({
-//   clientID: "517e5112-cd4e-42a1-9959-883451fcaafb",
-//   // redirectUri: "https://cjustinobi.github.io/unstoppable-healthy-street/",
-//   redirectUri: "http://localhost:3000",
-//   // scope: "openid wallet"
-// })
-
-
-
-// export const loginWithUD = async () => {
-//   return await uauth.loginWithPopup()
-// }
