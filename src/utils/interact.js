@@ -1,8 +1,8 @@
-import { BigNumber, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { pascalToWord, TRANSACTION_STATUS } from '../utils'
 import HelpaJson from '../artifacts/contracts/Helpa.sol/Helpa.json'
 
-const contractAddress = '0x90af7C36ff9C9169548bb11A77939491bB7b49A2'
+const contractAddress = '0xa42e8974dfd120EE28f6eeB8aB300145392E78Aa'
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 const signer = provider.getSigner()
 const contractSigner = new ethers.Contract(contractAddress, HelpaJson.abi, signer)
@@ -200,22 +200,28 @@ export const forReview = async (transIndex, customerAddr) => {
 
 export const sendTx = async  (receiver, amount) => {
 
-  if (typeof window.ethereum !== 'undefined') {
-    await requestAccount()
+  const ethereum = window.ethereum;
 
-    try {
-      const txHash = await contractSigner.tip(
-        receiver,
-        {
-          // value: ethers.utils.parseUnits(amount, 'ether').toHexString()
-          value: ethers.utils.parseEther(BigNumber.from(amount.toString()))
+  if(ethereum){
 
-        }
-      )
-      return await txHash.wait()
+    try{
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const accounts = await ethereum.request({ method: 'eth_accounts' });
 
-    } catch (err) {
-      console.log('Error: ', err);
+      const transaction = [{
+        from: accounts[0],
+        to: receiver,
+        value: ethers.utils.parseUnits(amount, 'ether').toHexString()
+      }]
+
+      const transactionHash = await provider.send('eth_sendTransaction', transaction)
+      console.log(`Txn Hash: ${transactionHash}`)
+      return transactionHash
+    } catch(err){
+      console.log(err)
     }
+  } else {
+    console.log('Metamask not detected')
   }
+
 }

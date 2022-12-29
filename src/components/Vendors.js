@@ -19,8 +19,8 @@ const Vendors = () => {
       const address = localStorage.getItem('address')
       const res = await getVendors()
 
-      // if (address && res) {
-      if (res) {
+      if (address && res) {
+      // if (res) {
         console.log(res)
         setVendors(res)
         setUpdateVendor(false)

@@ -34,10 +34,10 @@ const Transactions = () => {
       resolve(r)
     })
 
-    // return console.log(await address)
+    const addr = await address
 
-    if (await address) {
-      console.log(await sendTx(address, amount))
+    if (addr) {
+      await sendTx(addr, amount)
       setLoading(false)
       setShowTip(false)
     }
