@@ -7,7 +7,7 @@ const resolution = new Resolution()
 
 const uauth = new UAuth({
   clientID: '517e5112-cd4e-42a1-9959-883451fcaafb',
-  redirectUri: 'https://myhelpa.netlify.app/',
+  redirectUri: 'https://myhelpa.netlify.app',
   // redirectUri: 'http://localhost:3000',
   scope: 'openid wallet'
 })

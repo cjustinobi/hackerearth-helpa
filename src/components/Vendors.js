@@ -23,6 +23,8 @@ const Vendors = () => {
         console.log(res)
         setVendors(res)
         setUpdateVendor(false)
+      } else {
+        alert('Connect wallet')
       }
     }
 
