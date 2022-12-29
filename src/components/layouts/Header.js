@@ -11,7 +11,7 @@ const Header = ({ openVendorModal }) => {
 
   const navigate = useNavigate()
 
-  const { vendors, setVendors } = useContext(VendorListContext)
+  const { setVendors } = useContext(VendorListContext)
 
   const [vendorExists] = useState(false)
   const [address, setAddress] = useState('')

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Modal from 'react-modal'
-import { VendorContext, VendorListContext, getVendors } from './contexts/AppContext'
+import { VendorContext, VendorListContext } from './contexts/AppContext'
 
 import { modalCustomStyles, modalCustomStyles2 } from './utils'
 import useExternalScripts from './hooks/useExternalScripts'
@@ -22,7 +22,6 @@ function App() {
   useExternalScripts('https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js')
 
   const size = useWindowSize()
-  const [getVendor, setGetVendor] = useState(false)
   const [updateVendor, setUpdateVendor] = useState(false)
   const [modalVendorIsOpen, setVendorIsOpen] = useState(false)
   const [vendors, setVendors] = useState(undefined)

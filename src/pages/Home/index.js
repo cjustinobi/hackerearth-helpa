@@ -10,7 +10,7 @@ const Home = ({openVendorModal}) => {
   const { vendors } = useContext(VendorListContext)
 
   const [address, setAddress] = useState(undefined)
-  const [vendorExists, setVendorExists] = useState(false)
+  const [setVendorExists] = useState(false)
 
   useEffect(() => {
     const getAccount = async () => {
@@ -49,9 +49,9 @@ const Home = ({openVendorModal}) => {
                   Focus on what matters!
                 </p>
 
-                {!vendorExists && <button onClick={() => openVendorModal()} className="banner-btn">
+                <button onClick={() => openVendorModal()} className="banner-btn">
                   Create Account
-                </button>}
+                </button>
 
               </div>
 
