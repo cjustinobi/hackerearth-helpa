@@ -70,7 +70,7 @@ const Vendors = () => {
                 <p><small>Sales: {ethers.utils.formatEther(vendor.totalAmount.toNumber())}</small></p>
 
                 <div className="price-box">
-                  <p className="price">{ethers.utils.formatEther(BigNumber.from(vendor.price))}</p>
+                  <p className="price">{ethers.utils.formatEther(BigNumber.from(vendor.price))} MATIC</p>
                   <button className="btn" onClick={() => transactionHandler(vendor.vendorIndex, vendor.vendorAddress, vendor.price)}>Hire</button>
                 </div>
 
