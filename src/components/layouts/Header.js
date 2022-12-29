@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react'
+import {useState, useEffect, useContext} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { truncateAddr } from '../../utils'
+import {getVendors, truncateAddr} from '../../utils'
 import { login } from '../../services'
+import { VendorListContext } from '../../contexts/AppContext'
+
 
 import logo from '../../assets/img/logo.png'
 
@@ -9,12 +11,16 @@ const Header = ({ openVendorModal }) => {
 
   const navigate = useNavigate()
 
+  const { vendors, setVendors } = useContext(VendorListContext)
+
   const [vendorExists] = useState(false)
   const [address, setAddress] = useState('')
 
   const connect = async () => {
     const res = await login()
     console.log(res)
+    const vendors = await getVendors()
+    setVendors(vendors)
     const addr = res.idToken.wallet_address
     localStorage.setItem('address', addr)
     setAddress(addr)

@@ -74,15 +74,17 @@ const Transactions = () => {
               <div className="showcase">
 
                 <div className="showcase-banner">
-                  <img src={`${PINATA_GATEWAY}/${item.CID}`} alt="transaction" width="300" />
+                  <img src={`${PINATA_GATEWAY}/${item.CID}`} alt="transaction" width="300" className={'product-img'} />
 
                 <div className="showcase-content">
 
-                  <small>{item.status}</small>
-                  <p><small>Amount: {ethers.utils.formatEther(item.amount.toNumber())}</small></p>
+                  <small className={item.status}>{item.status}</small>
+                  <p><small>Amount: {ethers.utils.formatEther(item.amount.toNumber())} MATIC</small></p>
                   <small>Created {formatDate(item.dateCreated.toNumber())}</small><br/>
-                  <div>
-                  {item.status === 'Completed' && <small onClick={() => setShowTip(true)} className={'tip'}>Tip {item.UDName}</small>}
+                  <div className={'tip-container'}>
+                  {item.status === 'Completed' && <small onClick={() => setShowTip(true)}>
+                    Tip <span className={'tip'}>{item.UDName}</span>
+                  </small>}
                     {showTip && <div className={'tip-form'}>
                       <input onChange={e => setAmount(e.target.value)} type='number' placeholder='Enter amount' />
                       <button onClick={() => sendTip(item.UDName)} className={'btn'}>

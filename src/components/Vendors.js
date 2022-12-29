@@ -16,8 +16,9 @@ const Vendors = () => {
 
     const vendorsHandler = async () => {
 
+      const address = localStorage.getItem('address')
       const res = await getVendors()
-      if (res) {
+      if (address && res) {
         console.log(res)
         setUpdateVendor(false)
       }
