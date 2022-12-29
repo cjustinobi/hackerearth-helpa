@@ -27,7 +27,7 @@ const Home = ({openVendorModal}) => {
       }
     }
 
-  }, [address, vendors])
+  }, [address, vendors, setVendorExists])
 
   return (
     <main>
