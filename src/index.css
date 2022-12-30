@@ -98,6 +98,7 @@ code {
 
 .btn-address {
   background: #222 !important;
+  text-transform: none !important;
 }
 
 .modal-btns {

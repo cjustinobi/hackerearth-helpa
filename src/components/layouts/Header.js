@@ -1,7 +1,7 @@
-import {useState, useEffect, useContext} from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import {getVendors, truncateAddr} from '../../utils'
-import { login } from '../../services'
+import { getVendors } from '../../utils'
+import { login, logout } from '../../services'
 import { VendorListContext } from '../../contexts/AppContext'
 
 
@@ -16,18 +16,32 @@ const Header = ({ openVendorModal }) => {
   const [vendorExists] = useState(false)
   const [address, setAddress] = useState('')
 
-  const connect = async () => {
-    const res = await login()
-    console.log(res)
-    const vendors = await getVendors()
-    setVendors(vendors)
-    const addr = res.idToken.wallet_address
-    localStorage.setItem('address', addr)
-    setAddress(addr)
+  const toggleConnect = async () => {
+
+    const result = localStorage.getItem('sub')
+
+    if (result) {
+
+      await logout()
+      localStorage.clear()
+      setAddress('')
+
+    } else {
+
+      const res = await login()
+      console.log(res)
+      const vendors = await getVendors()
+      setVendors(vendors)
+      const addr = res.idToken.sub
+      localStorage.setItem('sub', addr)
+      setAddress(addr)
+    }
+
+
   }
 
   const openVendorModalHandler = async () => {
-    const addr = localStorage.getItem('address')
+    const addr = localStorage.getItem('sub')
 
     if (!addr) {
       let res = new Promise(async resolve => {
@@ -37,7 +51,7 @@ const Header = ({ openVendorModal }) => {
 
       res = await res
       if (res) {
-        localStorage.setItem('address', res.data.idToken.wallet_address)
+        localStorage.setItem('sub', res.data.idToken.sub)
         openVendorModal()
       }
 
@@ -48,9 +62,9 @@ const Header = ({ openVendorModal }) => {
   }
 
   useEffect(() => {
-    const addr = localStorage.getItem('address')
-    if (addr) {
-      setAddress(addr)
+    const sub = localStorage.getItem('sub')
+    if (sub) {
+      setAddress(sub)
     }
   }, [setAddress])
 
@@ -71,8 +85,9 @@ const Header = ({ openVendorModal }) => {
           </div>
 
           <div className="header-user-actions">
-            <button onClick={connect} className={'banner-btn btn-address'}>
-              {address ? `${truncateAddr(address)}` : 'Connect Wallet'}
+            <button onClick={toggleConnect} className={'banner-btn btn-address'}>
+              {/*{address ? `${truncateAddr(address)}` : 'Connect Wallet'}*/}
+              {address ? `${address} - Disconnect` : 'Connect Wallet'}
             </button>
             {!vendorExists && <button className={'banner-btn'} onClick={openVendorModalHandler} >
               Create Account
@@ -80,8 +95,9 @@ const Header = ({ openVendorModal }) => {
           </div>
 
           <div className="mobile-btns">
-            <button onClick={connect} className={'banner-btn btn-address'}>
-              {address ? truncateAddr(address) : 'Connect Wallet'}
+            <button onClick={toggleConnect} className={'banner-btn btn-address'}>
+              {/*{address ? truncateAddr(address) : 'Connect Wallet'}*/}
+              {address ? `${address} - Disconnect` : 'Connect Wallet'}
             </button>
             {!vendorExists && <button className={'banner-btn'} onClick={openVendorModalHandler} >
               Create Account

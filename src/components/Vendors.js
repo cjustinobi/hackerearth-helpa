@@ -16,7 +16,7 @@ const Vendors = () => {
 
     const vendorsHandler = async () => {
 
-      const address = localStorage.getItem('address')
+      const address = localStorage.getItem('sub')
 
       if (!address) return console.log('Connect to wallet')
 
