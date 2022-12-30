@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { pascalToWord, TRANSACTION_STATUS } from '../utils'
 import HelpaJson from '../artifacts/contracts/Helpa.sol/Helpa.json'
 
-const contractAddress = '0x599536945a2d6bccDCA79AE1A38584e92D2b9D84'
+const contractAddress = '0xf815809CEAFdb9937Aa592C3a87E36415d402510'
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 const signer = provider.getSigner()
 const contractSigner = new ethers.Contract(contractAddress, HelpaJson.abi, signer)

@@ -26,6 +26,14 @@ const Header = ({ openVendorModal }) => {
     setAddress(addr)
   }
 
+  const openVendorModalHandler = () => {
+    const addr = localStorage.getItem('address')
+
+    if (!addr) return alert('Connect to wallet')
+
+    openVendorModal()
+  }
+
   useEffect(() => {
     const addr = localStorage.getItem('address')
     if (addr) {
@@ -53,7 +61,7 @@ const Header = ({ openVendorModal }) => {
             <button onClick={connect} className={'banner-btn btn-address'}>
               {address ? `${truncateAddr(address)}` : 'Connect Wallet'}
             </button>
-            {!vendorExists && <button className={'banner-btn'} onClick={() => openVendorModal()} >
+            {!vendorExists && <button className={'banner-btn'} onClick={openVendorModalHandler} >
               Create Account
             </button>}
           </div>
@@ -62,7 +70,7 @@ const Header = ({ openVendorModal }) => {
             <button onClick={connect} className={'banner-btn btn-address'}>
               {address ? truncateAddr(address) : 'Connect Wallet'}
             </button>
-            {!vendorExists && <button className={'banner-btn'} onClick={() => openVendorModal()} >
+            {!vendorExists && <button className={'banner-btn'} onClick={openVendorModalHandler} >
               Create Account
             </button>}
           </div>

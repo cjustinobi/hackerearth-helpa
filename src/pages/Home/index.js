@@ -1,33 +1,16 @@
-import { useContext, useEffect, useState } from 'react'
-import { requestAccount } from '../../utils'
+// import { useContext, useEffect, useState } from 'react'
+// import { requestAccount } from '../../utils'
 import Vendors from '../../components/Vendors'
-import { VendorListContext } from '../../contexts/AppContext'
+// import { VendorListContext } from '../../contexts/AppContext'
 
 import hero from '../../assets/img/hero.png'
 
 const Home = ({openVendorModal}) => {
+  //
+  // const { vendors } = useContext(VendorListContext)
+  //
+  // const [address, setAddress] = useState(undefined)
 
-  const { vendors } = useContext(VendorListContext)
-
-  const [address, setAddress] = useState(undefined)
-  // const [setVendorExists] = useState(false)
-
-  useEffect(() => {
-    const getAccount = async () => {
-      const res = await requestAccount()
-      setAddress(res[0])
-    }
-
-    getAccount()
-
-    // if (address && vendors) {
-    //   const vendor = vendors.find(v => lowerCaseAddr(v.vendorAddress) === address)
-    //   if (vendor) {
-    //     setVendorExists(true)
-    //   }
-    // }
-
-  }, [address, vendors])
 
   return (
     <main>
