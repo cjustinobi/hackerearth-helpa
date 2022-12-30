@@ -65,6 +65,8 @@ const Transactions = () => {
 
         <div className="product-main">
 
+          {loading && <div className={'lds-dual-ring'}></div>}
+
           <h2 className="title">My Transactions</h2>
 
           <div className="product-grid">
@@ -87,9 +89,7 @@ const Transactions = () => {
                   </small>}
                     {showTip && <div className={'tip-form'}>
                       <input onChange={e => setAmount(e.target.value)} type='number' placeholder='Enter amount' />
-                      <button onClick={() => sendTip(item.UDName)} className={'btn'}>
-                        {loading ? 'Sending Tip...' : 'Send Tip'}</button>
-                    </div>}
+                      <button onClick={() => sendTip(item.UDName)} className={'btn'}>{'Send Tip'}</button></div>}
                   </div>
                   
 
