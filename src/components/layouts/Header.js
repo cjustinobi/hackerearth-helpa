@@ -37,6 +37,7 @@ const Header = ({ openVendorModal }) => {
 
       res = await res
       if (res) {
+        localStorage.setItem('address', res.data.idToken.wallet_address)
         openVendorModal()
       }
 
