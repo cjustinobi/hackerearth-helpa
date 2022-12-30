@@ -17,9 +17,12 @@ const Vendors = () => {
     const vendorsHandler = async () => {
 
       const address = localStorage.getItem('address')
+
+      if (!address) return alert('Connect to wallet')
+
       const res = await getVendors()
 
-      if (address && res) {
+      if (res) {
       // if (res) {
         console.log(res)
         setVendors(res)
