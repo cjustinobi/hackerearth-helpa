@@ -18,7 +18,7 @@ const Vendors = () => {
 
       const address = localStorage.getItem('address')
 
-      if (!address) return alert('Connect to wallet')
+      if (!address) return console.log('Connect to wallet')
 
       const res = await getVendors()
 

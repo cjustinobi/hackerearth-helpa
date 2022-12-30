@@ -26,12 +26,24 @@ const Header = ({ openVendorModal }) => {
     setAddress(addr)
   }
 
-  const openVendorModalHandler = () => {
+  const openVendorModalHandler = async () => {
     const addr = localStorage.getItem('address')
 
-    if (!addr) return alert('Connect to wallet')
+    if (!addr) {
+      let res = new Promise(async resolve => {
+        const r = await login()
+        resolve(r)
+      })
 
-    openVendorModal()
+      res = await res
+      if (res) {
+        openVendorModal()
+      }
+
+    } else {
+      openVendorModal()
+    }
+
   }
 
   useEffect(() => {
